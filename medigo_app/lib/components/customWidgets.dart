@@ -103,3 +103,69 @@ class PaddedContainer extends StatelessWidget {
     );
   }
 }
+
+class UserProfile extends StatelessWidget {
+  const UserProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(20),
+        height: 200,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: Colors.green, borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          children: [
+            const CircleAvatar(
+              backgroundColor: Colors.white,
+            ),
+            const Text(
+              "Medigo User",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              "2048 - 2348 - 3245 - 3422",
+              style: TextStyle(color: Colors.white),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: const [
+                    Text("Gender"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Status"),
+                  ],
+                ),
+                Column(
+                  children: const [
+                    Text("Gender"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Status"),
+                  ],
+                ),
+                Column(
+                  children: const [
+                    Text("Gender"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Status"),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+}
