@@ -9,7 +9,7 @@ class SplashScreen extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Image.asset("splash screen.png"),
+          child: Image.asset("assets/images/splash_screen.png"),
         ),
         const Text(
           "Medigo, ",

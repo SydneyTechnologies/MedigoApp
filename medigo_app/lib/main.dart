@@ -23,9 +23,12 @@ class _MedigoAppState extends State<MedigoApp> {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MultiProvider(providers: [
-        ChangeNotifierProvider(create: (context) => NavigationProvider())
-      ], child: const RouteHelper()),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => NavigationProvider())
+        ],
+        child: const RouteHelper(),
+      ),
     );
   }
 }
@@ -35,13 +38,15 @@ class RouteHelper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NavigationProvider>(builder: (context, value, child) {
-      switch (value.currentRoute) {
-        case "home":
-          return const SplashScreen();
-        default:
-          return const SplashScreen();
-      }
-    });
+    return Scaffold(
+      body: Consumer<NavigationProvider>(builder: (context, value, child) {
+        switch (value.currentRoute) {
+          case "home":
+            return const SplashScreen();
+          default:
+            return const SplashScreen();
+        }
+      }),
+    );
   }
 }
