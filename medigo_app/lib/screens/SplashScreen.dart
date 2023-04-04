@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medigo_app/components/customWidgets.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
