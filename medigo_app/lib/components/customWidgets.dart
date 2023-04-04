@@ -11,8 +11,7 @@ class InputField extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
         child: TextField(
           decoration: InputDecoration(
-            label: Text("Email Address"),
-            hintText: "please enter your email ",
+            hintText: "please enter your email",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
             ),
