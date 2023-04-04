@@ -18,14 +18,15 @@ class _MedigoAppState extends State<MedigoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: MultiProvider(providers: [
-          ChangeNotifierProvider(create: (context) => NavigationProvider())
-        ], child: const RouteHelper()));
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => NavigationProvider())
+      ], child: const RouteHelper()),
+    );
   }
 }
 
