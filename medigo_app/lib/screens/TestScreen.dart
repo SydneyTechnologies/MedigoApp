@@ -12,11 +12,12 @@ class TestScreen extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             children: [
-              InputField(
+              const UserProfile(),
+              const InputField(
                 title: "Email",
                 hint: "Please enter your email",
               ),
-              CustomButton(
+              const CustomButton(
                 text: "Sign in",
               ),
               CustomCheckBox()
