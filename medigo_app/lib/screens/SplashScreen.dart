@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          child: Center(child: const InputField()),
+          child: InputField(title: "Email"),
         ),
       ),
     );

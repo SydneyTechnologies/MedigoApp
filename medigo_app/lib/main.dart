@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/screens/SplashScreen.dart';
+import 'screens/TestScreen.dart';
 import 'package:medigo_app/services/NavigationProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class RouteHelper extends StatelessWidget {
     return Consumer<NavigationProvider>(builder: (context, value, child) {
       switch (value.currentRoute) {
         case "home":
-          return const SplashScreen();
+          return const TestScreen();
         default:
           return const SplashScreen();
       }
