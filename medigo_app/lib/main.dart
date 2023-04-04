@@ -45,6 +45,8 @@ class RouteHelper extends StatelessWidget {
           switch (value.currentRoute) {
             case "home":
               return const SplashScreen();
+            case "test page":
+              return const TestScreen();
             default:
               return const SplashScreen();
           }
