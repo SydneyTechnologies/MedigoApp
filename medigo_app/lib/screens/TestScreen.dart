@@ -10,7 +10,18 @@ class TestScreen extends StatelessWidget {
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          child: Center(child: const InputField()),
+          child: Column(
+            children: [
+              InputField(
+                title: "Email",
+                hint: "Please enter your email",
+              ),
+              CustomButton(
+                text: "Sign in",
+              ),
+              CustomCheckBox()
+            ],
+          ),
         ),
       ),
     );
