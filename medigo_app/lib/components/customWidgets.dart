@@ -88,3 +88,18 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
         }));
   }
 }
+
+class PaddedContainer extends StatelessWidget {
+  PaddedContainer({super.key, required this.child, required this.paddingValue});
+
+  Widget child;
+  double paddingValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(paddingValue),
+      child: child,
+    );
+  }
+}
