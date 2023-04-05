@@ -20,7 +20,8 @@ class TestScreen extends StatelessWidget {
               const CustomButton(
                 text: "Sign in",
               ),
-              CustomCheckBox()
+              CustomCheckBox(),
+              CustomNavBar()
             ],
           ),
         ),

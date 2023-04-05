@@ -169,3 +169,54 @@ class UserProfile extends StatelessWidget {
         ));
   }
 }
+
+class CustomNavBar extends StatefulWidget {
+  const CustomNavBar({super.key});
+
+  @override
+  State<CustomNavBar> createState() => _CustomNavBarState();
+}
+
+class _CustomNavBarState extends State<CustomNavBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 50,
+      decoration: BoxDecoration(
+          color: Colors.grey.shade300, borderRadius: BorderRadius.circular(30)),
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 80,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 125,
+              height: 100,
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(30)),
+            ),
+          ),
+          const Positioned(
+            top: 12,
+            left: 30,
+            child: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+          ),
+          const Positioned(
+            top: 12,
+            right: 30,
+            child: Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
