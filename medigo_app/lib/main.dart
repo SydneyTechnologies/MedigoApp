@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/screens/SplashScreen.dart';
+import 'package:medigo_app/screens/auth/LoginScreen.dart';
+import 'package:medigo_app/screens/auth/RegisterScreen.dart';
 import 'screens/TestScreen.dart';
 import 'package:medigo_app/services/NavigationProvider.dart';
 import 'package:provider/provider.dart';
@@ -24,33 +26,24 @@ class _MedigoAppState extends State<MedigoApp> {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
+      // Set the initial route
+      // Define named routes
+      routes: {
+        '/test-page': (context) => const TestScreen(),
+        '/sign-in': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterPage(),
+      },
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => NavigationProvider())
+          ChangeNotifierProvider(
+            create: (context) => NavigationProvider(),
+          )
         ],
-        child: const RouteHelper(),
-      ),
-    );
-  }
-}
-
-class RouteHelper extends StatelessWidget {
-  const RouteHelper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Consumer<NavigationProvider>(builder: (context, value, child) {
-          switch (value.currentRoute) {
-            case "home":
-              return const SplashScreen();
-            case "test page":
-              return const TestScreen();
-            default:
-              return const SplashScreen();
-          }
-        }),
+        child: const Scaffold(
+          body: SafeArea(
+            child: SplashScreen(),
+          ),
+        ),
       ),
     );
   }
