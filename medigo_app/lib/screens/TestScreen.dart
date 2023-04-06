@@ -24,7 +24,8 @@ class TestScreen extends StatelessWidget {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text("Go back"),
-              )
+              ),
+              CustomNavBar()
             ],
           ),
         ),
