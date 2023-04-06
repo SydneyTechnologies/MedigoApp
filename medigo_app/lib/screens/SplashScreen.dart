@@ -9,12 +9,12 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<NavigationProvider>(
-      builder: (context, value, child) => PaddedContainer(
+      builder: (_, value, child) => PaddedContainer(
         paddingValue: 30,
         child: GestureDetector(
           onVerticalDragUpdate: (details) {
             print("Swipe");
-            value.navigateTo("test page");
+            Navigator.pushNamed(_, "/sign-in");
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

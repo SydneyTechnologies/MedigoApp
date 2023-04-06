@@ -15,7 +15,7 @@ class InputField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "$title",
+            title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
@@ -23,9 +23,9 @@ class InputField extends StatelessWidget {
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: (hint == null) ? "please enter your email" : hint,
+              hintText: (hint == null) ? "" : hint,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
           ),
@@ -36,9 +36,10 @@ class InputField extends StatelessWidget {
 }
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.text, this.color});
+  CustomButton({super.key, required this.text, this.color, this.onPress});
   final String text;
   final Color? color;
+  void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,13 @@ class CustomButton extends StatelessWidget {
           color: (color == null) ? Colors.black : color,
           borderRadius: BorderRadius.circular(10)),
       child: TextButton(
-          onPressed: () {},
+          onPressed: onPress ?? () {},
           child: Text(
             text,
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
           )),
     );
   }
@@ -90,15 +94,32 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
 }
 
 class PaddedContainer extends StatelessWidget {
-  PaddedContainer({super.key, required this.child, required this.paddingValue});
+  PaddedContainer({
+    super.key,
+    required this.child,
+    required this.paddingValue,
+    this.pt,
+    this.pl,
+    this.pb,
+    this.pr,
+  });
 
   Widget child;
-  double paddingValue;
+  double paddingValue = 30;
+  double? pt;
+  double? pl;
+  double? pb;
+  double? pr;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(paddingValue),
+      padding: EdgeInsets.only(
+        top: pt ?? paddingValue,
+        left: pl ?? paddingValue,
+        bottom: pb ?? paddingValue,
+        right: pr ?? paddingValue,
+      ),
       child: child,
     );
   }

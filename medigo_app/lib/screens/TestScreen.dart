@@ -17,10 +17,14 @@ class TestScreen extends StatelessWidget {
                 title: "Email",
                 hint: "Please enter your email",
               ),
-              const CustomButton(
+              CustomButton(
                 text: "Sign in",
               ),
               CustomCheckBox(),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Go back"),
+              ),
               CustomNavBar()
             ],
           ),
