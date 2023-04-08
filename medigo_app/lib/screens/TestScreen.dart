@@ -14,22 +14,7 @@ class TestScreen extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             children: [
-              const UserProfile(),
-              const InputField(
-                title: "Email",
-                hint: "Please enter your email",
-              ),
-              CustomButton(
-                text: "Sign in",
-              ),
-              CustomCheckBox(),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Go back"),
-              ),
-              CustomNavBar(
-                width: 200,
-              ),
+              DrugTile(),
             ],
           ),
         ),
