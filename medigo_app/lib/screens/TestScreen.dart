@@ -7,6 +7,8 @@ class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEdgeDragWidth: 200,
+      drawer: CustomSideBar(),
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
@@ -25,7 +27,9 @@ class TestScreen extends StatelessWidget {
                 onPressed: () => Navigator.pop(context),
                 child: const Text("Go back"),
               ),
-              CustomNavBar()
+              CustomNavBar(
+                width: 200,
+              ),
             ],
           ),
         ),

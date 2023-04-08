@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:medigo_app/constants.dart';
+export 'sideBar.dart';
 
 class InputField extends StatelessWidget {
   const InputField({super.key, required this.title, this.hint});
@@ -195,17 +195,47 @@ class UserProfile extends StatelessWidget {
 }
 
 class CustomNavBar extends StatefulWidget {
-  const CustomNavBar({super.key});
+  CustomNavBar({super.key, required this.width});
+  double width;
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
+  menuState currentState = menuState.home;
+  double left = 0;
+  double right = 0;
+
+  switchMenu(menuState state, double value) {
+    setState(() {
+      currentState = state;
+      switch (currentState) {
+        case menuState.home:
+          left = 0;
+          right = (value / 2) - (0.05 * value);
+          break;
+        case menuState.cart:
+          left = (value / 2) - (0.05 * value);
+          right = 0;
+          break;
+        default:
+          left = 0;
+          right = (value / 2) - (0.05 * value);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    right = (widget.width / 2) - (0.05 * widget.width);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
+      width: widget.width,
       height: 50,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
@@ -214,30 +244,31 @@ class _CustomNavBarState extends State<CustomNavBar> {
       child: Stack(
         children: [
           Positioned(
-            left: 0,
-            right: 80,
+            left: left,
+            right: right,
             top: 0,
             bottom: 0,
             child: Container(
-              width: 125,
-              height: 100,
               decoration: BoxDecoration(
                   color: Colors.green, borderRadius: BorderRadius.circular(30)),
             ),
           ),
-          const Positioned(
-            top: 12,
+          Positioned(
+            top: 3,
             left: 30,
-            child: Icon(
-              Icons.home,
+            child: IconButton(
+              onPressed: () => switchMenu(menuState.home, widget.width),
+              icon: const Icon(Icons.home),
               color: Colors.white,
             ),
           ),
-          const Positioned(
-            top: 12,
+          Positioned(
+            top: 3,
             right: 30,
-            child: Icon(
-              Icons.shopping_cart,
+            child: IconButton(
+              padding: const EdgeInsets.all(0),
+              onPressed: () => switchMenu(menuState.cart, widget.width),
+              icon: const Icon(Icons.shopping_cart),
               color: Colors.white,
             ),
           ),
