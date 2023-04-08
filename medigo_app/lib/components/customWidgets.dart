@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:medigo_app/constants.dart';
 
 class InputField extends StatelessWidget {
   const InputField({super.key, required this.title, this.hint});
@@ -198,7 +197,44 @@ class CustomNavBar extends StatefulWidget {
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
-class _CustomNavBarState extends State<CustomNavBar> {
+class _CustomNavBarState extends State<CustomNavBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  menuState currentState = menuState.home;
+
+  void switchMenu(menuState state) {
+    _controller.forward();
+    setState(() {
+      currentState = state;
+
+      switch (currentState) {
+        case menuState.home:
+          break;
+        case menuState.cart:
+          break;
+        default:
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,23 +244,26 @@ class _CustomNavBarState extends State<CustomNavBar> {
           color: Colors.grey.shade300, borderRadius: BorderRadius.circular(30)),
       child: Stack(
         children: [
-          Positioned(
-            left: 0,
-            right: 80,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 125,
-              height: 100,
-              decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(30)),
+          AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) => Positioned(
+              left: 0,
+              right: _animation.value,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(30)),
+              ),
             ),
           ),
           const Positioned(
             top: 12,
             left: 30,
-            child: Icon(
-              Icons.home,
+            child: IconButton(
+              onPressed: null,
+              icon: Icon(Icons.home),
               color: Colors.white,
             ),
           ),

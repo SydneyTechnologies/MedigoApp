@@ -1,0 +1,4 @@
+enum menuState {
+  home,
+  cart,
+}

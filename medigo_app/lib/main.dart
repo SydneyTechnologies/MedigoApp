@@ -41,7 +41,7 @@ class _MedigoAppState extends State<MedigoApp> {
         ],
         child: const Scaffold(
           body: SafeArea(
-            child: SplashScreen(),
+            child: TestScreen(),
           ),
         ),
       ),
