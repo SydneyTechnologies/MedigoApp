@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medigo_app/components/sideBar.dart';
 import 'package:medigo_app/constants.dart';
 export 'sideBar.dart';
 
@@ -286,6 +287,7 @@ class PageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomSideBar(),
       body: SafeArea(
           child: PaddedContainer(
         pt: 20.0,
@@ -296,10 +298,12 @@ class PageLayout extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Icon(Icons.menu),
-                CustomNavBar(),
-                Icon(Icons.settings)
+              children: [
+                const Icon(Icons.menu),
+                CustomNavBar(
+                  width: 200.0,
+                ),
+                const Icon(Icons.settings)
               ],
             ),
             const SizedBox(
