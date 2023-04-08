@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medigo_app/components/sideBar.dart';
 import 'package:medigo_app/constants.dart';
 export 'sideBar.dart';
 
@@ -97,7 +98,7 @@ class PaddedContainer extends StatelessWidget {
   PaddedContainer({
     super.key,
     required this.child,
-    required this.paddingValue,
+    this.paddingValue,
     this.pt,
     this.pl,
     this.pb,
@@ -105,21 +106,24 @@ class PaddedContainer extends StatelessWidget {
   });
 
   Widget child;
-  double paddingValue = 30;
+  double? paddingValue;
   double? pt;
   double? pl;
   double? pb;
   double? pr;
+  final double initialPadding = 20;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        top: pt ?? paddingValue,
-        left: pl ?? paddingValue,
-        bottom: pb ?? paddingValue,
-        right: pr ?? paddingValue,
-      ),
+      padding: paddingValue == null
+          ? EdgeInsets.only(
+              top: pt ?? initialPadding,
+              left: pl ?? initialPadding,
+              bottom: pb ?? initialPadding,
+              right: pr ?? initialPadding,
+            )
+          : EdgeInsets.all(paddingValue ?? initialPadding),
       child: child,
     );
   }
@@ -235,7 +239,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
       width: widget.width,
       height: 50,
       decoration: BoxDecoration(
-          color: Colors.grey.shade300, borderRadius: BorderRadius.circular(30)),
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Stack(
         children: [
           Positioned(
@@ -269,6 +275,44 @@ class _CustomNavBarState extends State<CustomNavBar> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PageLayout extends StatelessWidget {
+  PageLayout({super.key, required this.child});
+
+  Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const CustomSideBar(),
+      body: SafeArea(
+          child: PaddedContainer(
+        pt: 20.0,
+        pl: 20.0,
+        pr: 20.0,
+        pb: 0.0,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(Icons.menu),
+                CustomNavBar(
+                  width: 200.0,
+                ),
+                const Icon(Icons.settings)
+              ],
+            ),
+            const SizedBox(
+              height: 15.0,
+            ),
+            child
+          ],
+        ),
+      )),
     );
   }
 }

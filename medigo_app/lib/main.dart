@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medigo_app/screens/HomeScreen.dart';
 import 'package:medigo_app/screens/SplashScreen.dart';
 import 'package:medigo_app/screens/auth/LoginScreen.dart';
 import 'package:medigo_app/screens/auth/RegisterScreen.dart';
@@ -32,6 +33,7 @@ class _MedigoAppState extends State<MedigoApp> {
         '/test-page': (context) => const TestScreen(),
         '/sign-in': (context) => const LoginScreen(),
         '/register': (context) => const RegisterPage(),
+        '/home': (context) => const HomeScreen(),
       },
       home: MultiProvider(
         providers: [
@@ -40,7 +42,7 @@ class _MedigoAppState extends State<MedigoApp> {
           )
         ],
         child: const Scaffold(
-          body: SafeArea(child: TestScreen()),
+          body: SafeArea(child: SplashScreen()),
         ),
       ),
     );
