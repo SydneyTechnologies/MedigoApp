@@ -191,29 +191,33 @@ class UserProfile extends StatelessWidget {
 }
 
 class CustomNavBar extends StatefulWidget {
-  const CustomNavBar({super.key});
+  CustomNavBar({super.key, required this.width});
+  double width;
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
-class _CustomNavBarState extends State<CustomNavBar>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _CustomNavBarState extends State<CustomNavBar> {
   menuState currentState = menuState.home;
+  double left = 0;
+  double right = 0;
 
-  void switchMenu(menuState state) {
-    _controller.forward();
+  switchMenu(menuState state, double value) {
     setState(() {
       currentState = state;
-
       switch (currentState) {
         case menuState.home:
+          left = 0;
+          right = (value / 2) - (0.05 * value);
           break;
         case menuState.cart:
+          left = (value / 2) - (0.05 * value);
+          right = 0;
           break;
         default:
+          left = 0;
+          right = (value / 2) - (0.05 * value);
       }
     });
   }
@@ -221,57 +225,44 @@ class _CustomNavBarState extends State<CustomNavBar>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    right = (widget.width / 2) - (0.05 * widget.width);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
+      width: widget.width,
       height: 50,
       decoration: BoxDecoration(
           color: Colors.grey.shade300, borderRadius: BorderRadius.circular(30)),
       child: Stack(
         children: [
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) => Positioned(
-              left: 0,
-              right: _animation.value,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(30)),
-              ),
+          Positioned(
+            left: left,
+            right: right,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(30)),
             ),
           ),
-          const Positioned(
-            top: 12,
+          Positioned(
+            top: 3,
             left: 30,
             child: IconButton(
-              onPressed: null,
-              icon: Icon(Icons.home),
+              onPressed: () => switchMenu(menuState.home, widget.width),
+              icon: const Icon(Icons.home),
               color: Colors.white,
             ),
           ),
-          const Positioned(
-            top: 12,
+          Positioned(
+            top: 3,
             right: 30,
-            child: Icon(
-              Icons.shopping_cart,
+            child: IconButton(
+              padding: const EdgeInsets.all(0),
+              onPressed: () => switchMenu(menuState.cart, widget.width),
+              icon: const Icon(Icons.shopping_cart),
               color: Colors.white,
             ),
           ),
