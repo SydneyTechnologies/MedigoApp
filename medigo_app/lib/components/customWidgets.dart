@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/constants.dart';
 export 'sideBar.dart';
+export 'medInfoWidget.dart';
 
 class InputField extends StatelessWidget {
   const InputField({super.key, required this.title, this.hint});
