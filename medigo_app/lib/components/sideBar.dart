@@ -69,18 +69,41 @@ class OtherSections extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          SectionTile(name: "Profile"),
-          SectionTile(name: "My Prescriptions"),
-          SectionTile(name: "Payment History"),
-          SectionTile(name: "Collection History"),
-          SectionTile(name: "Medigo Location"),
+          SectionTile(
+            name: "Test Page",
+            onPress: () {
+              Navigator.pushNamed(context, '/test-page');
+            },
+          ),
+          SectionTile(
+            name: "Profile",
+            onPress: () {},
+          ),
+          SectionTile(
+            name: "My Prescriptions",
+            onPress: () {},
+          ),
+          SectionTile(
+            name: "Payment History",
+            onPress: () {},
+          ),
+          SectionTile(
+            name: "Collection History",
+            onPress: () {},
+          ),
+          SectionTile(
+            name: "Medigo Location",
+            onPress: () {},
+          ),
           SectionTile(
             name: "Settings",
             colored: false,
+            onPress: () {},
           ),
           SectionTile(
             name: "Notifications",
             colored: false,
+            onPress: () {},
           ),
         ],
       ),
@@ -89,23 +112,32 @@ class OtherSections extends StatelessWidget {
 }
 
 class SectionTile extends StatelessWidget {
-  SectionTile({super.key, required this.name, this.colored = true});
+  SectionTile(
+      {super.key,
+      required this.name,
+      this.colored = true,
+      required this.onPress});
   String name;
   bool colored;
 
+  void Function()? onPress;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: (colored) ? Colors.grey.shade300 : Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-      child: Row(
-        children: [
-          Text(
-            name,
-            style: const TextStyle(color: Colors.black),
-          ),
-          Spacer()
-        ],
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+        color: (colored) ? Colors.grey.shade300 : Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        child: Row(
+          children: [
+            Text(
+              name,
+              style: const TextStyle(color: Colors.black),
+            ),
+            Spacer()
+          ],
+        ),
       ),
     );
   }
