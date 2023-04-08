@@ -7,12 +7,13 @@ class CustomSideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width * 0.75,
-        color: Colors.white,
+        // height: MediaQuery.of(context).size.height,
+        color: Color.fromRGBO(255, 255, 255, 1),
         child: Column(
           // TODO: create a profile section with the users INSURANCE NUMBER
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Padding(
+          children: [
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: FloatingActionButton(
                 onPressed: null,
@@ -21,8 +22,13 @@ class CustomSideBar extends StatelessWidget {
                 child: Icon(Icons.menu),
               ),
             ),
-            ProfileSecionSide(),
-            OtherSections()
+            const ProfileSecionSide(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 248,
+              child: const SingleChildScrollView(
+                child: OtherSections(),
+              ),
+            )
           ],
         ));
   }
@@ -56,6 +62,7 @@ class OtherSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double other_section_height = MediaQuery.of(context).size.height;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
       width: double.infinity,
@@ -115,7 +122,7 @@ class Avatar extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(100)),
       child: const Icon(
-        Icons.person_2_rounded,
+        Icons.person_rounded,
         size: 80,
       ),
     );
