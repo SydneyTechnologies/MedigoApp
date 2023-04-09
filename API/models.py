@@ -16,7 +16,7 @@ class Issuer(BaseModel):
 
 
 class Medication(BaseModel):
-    id = Field(default_factory=uuid.uuid4, alias="_id")
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     name: str 
     purpose: str
     description: str | None = None
@@ -30,7 +30,7 @@ class Medication(BaseModel):
 
 
 class PrescribedMedication(Medication):
-    id = Field(default_factory=uuid.uuid4, alias="_id")
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     instructions: str
     issuer: Issuer | None = None
 
@@ -40,7 +40,7 @@ class PrescribedMedication(Medication):
         allow_population_by_field_name = True
     
 class Prescription(BaseModel):
-    id = Field(default_factory=uuid.uuid4, alias="_id")
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     prescription_date: date
     prescription_list: list[PrescribedMedication]
 
