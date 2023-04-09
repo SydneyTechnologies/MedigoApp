@@ -5,6 +5,8 @@ from enum import Enum
 from datetime import date
 
 
+# class User(BaseModel)
+
 class MedicationType(str , Enum):
     Pain_killers = "pain killers"
     Analgesics = "analgesics"
