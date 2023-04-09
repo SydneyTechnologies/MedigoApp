@@ -1,5 +1,6 @@
 # first import the fastapi library
 from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from models import  *
 from utils import *
@@ -64,6 +65,51 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
         "refresh_token": create_refresh_token(user["email"]),
     }
 
+# an endpoint to list all the prescriptions 
+@app.get("/prescriptions", summary="list all the prescriptions for the current user this is a protected route")
+def list_prescriptions(user = Depends(get_current_user)) -> list[Prescription]:
+    # first get all the prescriptions in the database for a particular user
+    prescriptions = db_client.MedigoApp.Prescription.find({"patient": user})
+    presciption_list = []
+    for item in prescriptions:
+        item.pop("_id")
+        presciption_list.append(Prescription(**item))
+    return presciption_list
+
+
+# Create the CRUD endpoints
+@app.post('/medications', response_model=Medication)
+async def create_medication(medication: Medication):
+    medication_dict = medication.dict()
+    result = db_client.MedigoApp.Medication.insert_one(medication_dict)
+    return Medication(**medication_dict)
+
+@app.get('/medications/{medication_name}', response_model=Medication)
+async def read_medication(medication_name: str):
+    medication = db_client.MedigoApp.Medication.find_one({'name': medication_name})
+    if medication:
+        return medication
+    else:
+        raise HTTPException(status_code=404, detail='Medication not found')
+
+@app.put('/medications/{medication_name}', response_model=Medication)
+async def update_medication(medication_name: str, medication: Medication):
+    medication_dict = medication.dict()
+    result = db_client.MedigoApp.Medication.update_one({'name': medication_name}, {'$set': medication_dict})
+    if result.modified_count == 1:
+        medication_dict
+        return Medication(**medication_dict)
+    else:
+        raise HTTPException(status_code=404, detail='Medication not found')
+
+@app.delete('/medications/{medication_name}')
+async def delete_medication(medication_name: str):
+    result = db_client.MedigoApp.Medication.delete_one({'name': medication_name})
+    if result.deleted_count == 1:
+        return JSONResponse(content={'message': 'Medication deleted successfully'})
+    else:
+        raise HTTPException(status_code=404, detail='Medication not found')
+
 # an endpoint to list all the medications 
 @app.get("/medications", response_model=list[Medication], summary="This endpoint will list up all the medications in the database if no query parameter is specified")
 def list_medications(type: MedicationType | None = None)->list[Medication]:
@@ -83,16 +129,3 @@ def list_medications(type: MedicationType | None = None)->list[Medication]:
         # add the medications to the medication list
         medication_list.append(med)
     return medication_list
-
-# an endpoint to list all the prescriptions 
-@app.get("/prescriptions", summary="list all the prescriptions for the current user this is a protected route")
-def list_prescriptions(user = Depends(get_current_user)) -> list[Prescription]:
-    # first get all the prescriptions in the database for a particular user
-    prescriptions = db_client.MedigoApp.Prescription.find({"patient": user})
-    presciption_list = []
-    for item in prescriptions:
-        item.pop("_id")
-        presciption_list.append(Prescription(**item))
-    return presciption_list
-
-

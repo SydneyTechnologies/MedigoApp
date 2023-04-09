@@ -53,6 +53,16 @@ class Medication(BaseModel):
         title = 'Medication'
         description = 'A data model for storing information about medications'
         allow_population_by_field_name = True
+        schema_extra = {
+        "example": {
+            "name": "Aspirin",
+            "purpose": "Pain relief",
+            "image": "https://www.example.com/aspirin.jpg",
+            "description": "Aspirin is a nonsteroidal anti-inflammatory drug (NSAID) used to treat pain, fever, and inflammation.",
+            "medication_type": "analgesics",
+            "expiration_date": "2024-04-10"
+        }
+        }
 
 
 class PrescribedMedication(Medication):
