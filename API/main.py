@@ -33,8 +33,9 @@ def register_user(user_data: User):
         new_user = db_client.MedigoApp.User.insert_one(user_data.dict())
 
         inserted_user = db_client.MedigoApp.User.find_one({"_id": new_user.inserted_id})
-        print(type(inserted_user))
-        inserted_user.pop("_id")
+        inserted_user.pop("_id", None)
+        print(inserted_user)
+
         # convert the user document to a User object and return it
         return User(**inserted_user)
     
@@ -60,8 +61,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # however if the data does exist and the passwords are the same then we return the access and refresh tokens 
 
     return {
-        "access_token": create_access_token(user.email),
-        "refresh_token": create_refresh_token(user.email),
+        "access_token": create_access_token(user["email"]),
+        "refresh_token": create_refresh_token(user["email"]),
     }
 
 # an endpoint to list all the medications 
