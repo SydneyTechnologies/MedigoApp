@@ -2,7 +2,6 @@
 from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from models import  *
-from auth import (AuthUser, AuthUserTokens)
 from utils import get_hashed_password, verify_password, create_access_token, create_refresh_token
 import os
 from decouple import config
@@ -41,7 +40,7 @@ def register_user(user_data: User):
         new_user = db_client.MedigoApp.User.insert_one(user_data.dict())
         return User(**new_user)
     
-@app.post("/login", summary="Login User", response_model=AuthUserTokens)
+@app.post("/login", summary="Login User")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = db_client.MedigoApp.User.find_one({"email": form_data.username})
     if user is None:
