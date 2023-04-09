@@ -1,11 +1,22 @@
 # PASSWORD HASHING
 
-import os
+from pydantic import ValidationError, BaseModel
 from decouple import config
 from datetime import datetime, timedelta
 from typing import Union, Any
 from jose import jwt
 from passlib.context import CryptContext
+from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, status
+
+
+from decouple import config
+import pymongo
+import certifi
+
+
+mongo_db_url = config("MONGO_DB_URL")
+db_client = pymongo.MongoClient(mongo_db_url, tlsCAFile = certifi.where())
 
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -47,3 +58,44 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: int = None) ->
     to_encode = {"exp": expires_delta, "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, JWT_REFRESH_SECRET_KEY, ALGORITHM)
     return encoded_jwt
+
+
+class TokenPayload(BaseModel):
+    exp: int
+    sub: str
+
+
+# create a dependency that gets the current user from the provided token in the request
+def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/login", scheme_name="JWT"))):
+    # now we have the token we need to decode it
+    try:
+        payload = jwt.decode(
+            token, JWT_SECRET_KEY, algorithms=[ALGORITHM]
+        )
+        token_data = TokenPayload(**payload)
+        
+        if datetime.fromtimestamp(token_data.exp) < datetime.now():
+            raise HTTPException(
+                status_code = status.HTTP_401_UNAUTHORIZED,
+                detail="Token expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    except(jwt.JWTError, ValidationError):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+    user = db_client.MedigoApp.User.find_one({"email": token_data.sub})
+    print(token_data.sub)
+    
+    
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not find user",
+        )
+    
+    return user

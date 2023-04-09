@@ -2,16 +2,9 @@
 from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from models import  *
-from utils import get_hashed_password, verify_password, create_access_token, create_refresh_token
+from utils import *
 import os
-from decouple import config
-import pymongo
-import certifi
-
 app = FastAPI()
-mongo_db_url = config("MONGO_DB_URL")
-db_client = pymongo.MongoClient(mongo_db_url, tlsCAFile = certifi.where())
-
 
 
 @app.post("/register", summary="This endpoint helps create users", response_model=User)
@@ -38,7 +31,12 @@ def register_user(user_data: User):
         # dob = user_data.date_of_birth
         # user_data.date_of_birth = str(dob)
         new_user = db_client.MedigoApp.User.insert_one(user_data.dict())
-        return User(**new_user)
+
+        inserted_user = db_client.MedigoApp.User.find_one({"_id": new_user.inserted_id})
+        print(type(inserted_user))
+        inserted_user.pop("_id")
+        # convert the user document to a User object and return it
+        return User(**inserted_user)
     
 @app.post("/login", summary="Login User")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -62,13 +60,13 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # however if the data does exist and the passwords are the same then we return the access and refresh tokens 
 
     return {
-        "access_token": create_access_token(user),
-        "refresh_token": create_refresh_token(user),
+        "access_token": create_access_token(user.email),
+        "refresh_token": create_refresh_token(user.email),
     }
 
 # an endpoint to list all the medications 
 @app.get("/medications", response_model=list[Medication])
-def list_medications(type: MedicationType | None = None)->list[Medication]:
+def list_medications(user = Depends(get_current_user), type: MedicationType | None = None)->list[Medication]:
     # get all the medications that are currently stored in the database
     # using the optional query parameter type, we can return all the medications of the said type
     if type is not None: 

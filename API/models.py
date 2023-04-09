@@ -16,8 +16,7 @@ class MaritalStatus(str , Enum):
     Married = "Married"
     Single = "Single"
 
-class TrustedUser(BaseModel):
-    email: str
+
 
 class Issuer(BaseModel):
     name: str
@@ -29,16 +28,11 @@ class User(BaseModel):
     password: str
 
     full_name: str
-    date_of_birth: str = Field(default_factory=str(datetime.today()))
+    date_of_birth: str = Field(default=str(datetime.today()))
     marital_status: MaritalStatus
     insurance_no: str
-    trusted_personnel: list[TrustedUser] | None = None
+    trusted_personnel: list[str] | None = None
 
-    class Config:
-        json_encoders = {
-            datetime.date: lambda dt: str(dt)
-        }
-    
     def __str__(self) -> str:
         return self.email
 
@@ -49,7 +43,7 @@ class Medication(BaseModel):
     purpose: str
     description: str | None = None
     medication_type: MedicationType
-    expiration_date: str = Field(default_factory=str(datetime.today()))
+    expiration_date: str = Field(default=str(datetime.today()))
 
     class Config:
         title = 'Medication'
@@ -69,7 +63,7 @@ class PrescribedMedication(Medication):
     
 class Prescription(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    prescription_date:str = Field(default_factory=str(datetime.today()))
+    prescription_date:str = Field(default=str(datetime.today()))
     prescription_list: list[PrescribedMedication]
 
     class Config:
