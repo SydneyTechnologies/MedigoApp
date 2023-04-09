@@ -8,6 +8,7 @@ from jose import jwt
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
+from models import User
 
 
 from decouple import config
@@ -66,7 +67,7 @@ class TokenPayload(BaseModel):
 
 
 # create a dependency that gets the current user from the provided token in the request
-def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/login", scheme_name="JWT"))):
+def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/login", scheme_name="JWT"))) -> User:
     # now we have the token we need to decode it
     try:
         payload = jwt.decode(
@@ -89,13 +90,11 @@ def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/login"
 
 
     user = db_client.MedigoApp.User.find_one({"email": token_data.sub})
-    print(token_data.sub)
-    
+    user.pop("_id")
     
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Could not find user",
         )
-    
-    return user
+    return User(**user)

@@ -7,8 +7,8 @@ import os
 app = FastAPI()
 
 
-@app.post("/register", summary="This endpoint helps create users", response_model=User)
-def register_user(user_data: User):
+@app.post("/register", summary="This endpoint helps create users")
+def register_user(user_data: User) -> User:
     # first we need to check if the user exists in our database 
     email = user_data.email
     if email is not None:
@@ -33,10 +33,9 @@ def register_user(user_data: User):
         new_user = db_client.MedigoApp.User.insert_one(user_data.dict())
 
         inserted_user = db_client.MedigoApp.User.find_one({"_id": new_user.inserted_id})
-        inserted_user.pop("_id", None)
-        print(inserted_user)
 
         # convert the user document to a User object and return it
+        inserted_user.pop("_id", None)
         return User(**inserted_user)
     
 @app.post("/login", summary="Login User")
@@ -66,8 +65,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 # an endpoint to list all the medications 
-@app.get("/medications", response_model=list[Medication])
-def list_medications(user = Depends(get_current_user), type: MedicationType | None = None)->list[Medication]:
+@app.get("/medications", response_model=list[Medication], summary="This endpoint will list up all the medications in the database if no query parameter is specified")
+def list_medications(type: MedicationType | None = None)->list[Medication]:
     # get all the medications that are currently stored in the database
     # using the optional query parameter type, we can return all the medications of the said type
     if type is not None: 
@@ -86,11 +85,14 @@ def list_medications(user = Depends(get_current_user), type: MedicationType | No
     return medication_list
 
 # an endpoint to list all the prescriptions 
-@app.get("/{userId}/prescriptions")
-def list_prescriptions(userId:str) -> list[Prescription]:
+@app.get("/prescriptions", summary="list all the prescriptions for the current user this is a protected route")
+def list_prescriptions(user = Depends(get_current_user)) -> list[Prescription]:
     # first get all the prescriptions in the database for a particular user
-    search_parameter = {}
-    prescriptions = db_client.MedigoApp.Prescription.find()
-
+    prescriptions = db_client.MedigoApp.Prescription.find({"patient": user})
+    presciption_list = []
+    for item in prescriptions:
+        item.pop("_id")
+        presciption_list.append(Prescription(**item))
+    return presciption_list
 
 

@@ -1,6 +1,7 @@
 # here we will define the models to be used for our application
 from pydantic import BaseModel, Field
-import uuid
+from typing import Any
+from bson import ObjectId
 from enum import Enum 
 from datetime import datetime
 from bson import json_util
@@ -36,11 +37,14 @@ class User(BaseModel):
     def __str__(self) -> str:
         return self.email
 
+    class Config:
+        allow_population_by_field_name = True
+
 
 class Medication(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     name: str 
     purpose: str
+    image: str
     description: str | None = None
     medication_type: MedicationType
     expiration_date: str = Field(default=str(datetime.today()))
@@ -52,7 +56,6 @@ class Medication(BaseModel):
 
 
 class PrescribedMedication(Medication):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     instructions: str
     issuer: Issuer | None = None
 
@@ -62,7 +65,7 @@ class PrescribedMedication(Medication):
         allow_population_by_field_name = True
     
 class Prescription(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    patient: User
     prescription_date:str = Field(default=str(datetime.today()))
     prescription_list: list[PrescribedMedication]
 
