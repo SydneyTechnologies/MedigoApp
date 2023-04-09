@@ -2,10 +2,9 @@
 from pydantic import BaseModel, Field
 import uuid
 from enum import Enum 
-from datetime import date
+from datetime import datetime
+from bson import json_util
 
-
-# class User(BaseModel)
 
 class MedicationType(str , Enum):
     Pain_killers = "pain killers"
@@ -13,8 +12,35 @@ class MedicationType(str , Enum):
     Hygiene = "hygiene"
     Anti_inflammatory = "anti-inflammatory"
 
+class MaritalStatus(str , Enum):
+    Married = "Married"
+    Single = "Single"
+
+class TrustedUser(BaseModel):
+    email: str
+
 class Issuer(BaseModel):
     name: str
+
+
+class User(BaseModel):
+    # needed for authentication 
+    email: str
+    password: str
+
+    full_name: str
+    date_of_birth: str = Field(default_factory=str(datetime.today()))
+    marital_status: MaritalStatus
+    insurance_no: str
+    trusted_personnel: list[TrustedUser] | None = None
+
+    class Config:
+        json_encoders = {
+            datetime.date: lambda dt: str(dt)
+        }
+    
+    def __str__(self) -> str:
+        return self.email
 
 
 class Medication(BaseModel):
@@ -23,7 +49,7 @@ class Medication(BaseModel):
     purpose: str
     description: str | None = None
     medication_type: MedicationType
-    expiration_date: date
+    expiration_date: str = Field(default_factory=str(datetime.today()))
 
     class Config:
         title = 'Medication'
@@ -43,7 +69,7 @@ class PrescribedMedication(Medication):
     
 class Prescription(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    prescription_date: date
+    prescription_date:str = Field(default_factory=str(datetime.today()))
     prescription_list: list[PrescribedMedication]
 
     class Config:
