@@ -22,7 +22,7 @@ class User {
   String email;
   String password;
   String fullName;
-  DateTime dateOfBirth;
+  String dateOfBirth;
   String maritalStatus;
   String insuranceNo;
   List<String> trustedPersonnel;
@@ -31,7 +31,7 @@ class User {
         email: json["email"],
         password: json["password"],
         fullName: json["full_name"],
-        dateOfBirth: DateTime.parse(json["date_of_birth"]),
+        dateOfBirth: json["date_of_birth"],
         maritalStatus: json["marital_status"],
         insuranceNo: json["insurance_no"],
         trustedPersonnel:
@@ -42,7 +42,7 @@ class User {
         "email": email,
         "password": password,
         "full_name": fullName,
-        "date_of_birth": dateOfBirth.toIso8601String(),
+        "date_of_birth": dateOfBirth,
         "marital_status": maritalStatus,
         "insurance_no": insuranceNo,
         "trusted_personnel": List<dynamic>.from(trustedPersonnel.map((x) => x)),
@@ -84,6 +84,7 @@ class AuthLogin {
   });
 
   String email;
+
   String password;
 
   factory AuthLogin.fromJson(Map<String, dynamic> json) => AuthLogin(

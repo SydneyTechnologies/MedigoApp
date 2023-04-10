@@ -39,3 +39,25 @@ Future<List<dynamic>?> Login(AuthLogin loginData) async {
     print(e);
   }
 }
+
+Future<List<dynamic>?> Register(User registerData) async {
+  // we will try and register the user using the endpoint from our API class in our constants file
+  try {
+    // send the register data to the endpoint
+    var response = await http.post(Uri.parse(MedigoAPI.register),
+        body: UserToJson(registerData),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        });
+    if (response.statusCode == 200) {
+      // if we have a good status code, then we need to store the user data in the provider state
+
+    }
+    print(response.body);
+  } catch (e) {
+    // if login does not work for any reason then we print the error that was caught
+    print("not working");
+    print(e);
+  }
+}

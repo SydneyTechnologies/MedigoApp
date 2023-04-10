@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/models/user.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -7,6 +8,15 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
+    TextEditingController fullNameController = TextEditingController();
+    TextEditingController dateOfBirthController = TextEditingController();
+    TextEditingController emailAddressController = TextEditingController();
+    TextEditingController phoneNumberController = TextEditingController();
+    TextEditingController maritalStatusController = TextEditingController();
+    TextEditingController insuranceCardController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -37,31 +47,47 @@ class RegisterPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: height - 102.0,
+              Expanded(
                 child: Center(
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // const InputField(
-                        //   title: "Full Name",
-                        // ),
-                        // const InputField(
-                        //   title: "Date of Birth",
-                        // ),
-                        // const InputField(
-                        //   title: "Email",
-                        // ),
-                        // const InputField(
-                        //   title: "Marital Status",
-                        // ),
-                        // const InputField(
-                        //   title: "Insurance Card No",
-                        // ),
-                        // const InputField(
-                        //   title: "Create Password",
-                        //   hint: "Create your password",
-                        // ),
+                        InputField(
+                          title: "Full Name",
+                          myController: fullNameController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Date of Birth",
+                          myController: dateOfBirthController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Email",
+                          myController: emailAddressController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Phone Number",
+                          myController: phoneNumberController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Marital Status",
+                          myController: maritalStatusController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Insurance Card No",
+                          myController: insuranceCardController,
+                          onChanged: (p0) {},
+                        ),
+                        InputField(
+                          title: "Create Password",
+                          hint: "Create your password",
+                          myController: passwordController,
+                          onChanged: (p0) {},
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -81,10 +107,23 @@ class RegisterPage extends StatelessWidget {
                           height: 15.0,
                         ),
                         CustomButton(
-                          text: "Create Account",
-                          onPress: () =>
-                              Navigator.pushNamed(context, "/register"),
-                        ),
+                            text: "Create Account",
+                            onPress: () async {
+                              try {
+                                var _userData = User(
+                                  email: emailAddressController.text,
+                                  password: passwordController.text,
+                                  fullName: fullNameController.text,
+                                  dateOfBirth: dateOfBirthController.text,
+                                  maritalStatus: maritalStatusController.text,
+                                  insuranceNo: insuranceCardController.text,
+                                  trustedPersonnel: [],
+                                );
+                              } catch (e) {
+                                print(e);
+                              }
+                              Navigator.pushNamed(context, "/register");
+                            }),
                         const SizedBox(
                           height: 50.0,
                         )
