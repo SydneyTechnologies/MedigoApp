@@ -265,61 +265,60 @@ class _CustomNavBarState extends State<CustomNavBar> {
     GlobalKey _customNavbar = GlobalKey();
 
     return Consumer<LayoutManagerProvider>(builder: (context, value, child) {
-      value.storeChildHeight(_customNavbar, "CustomNavbar");
+      // value.storeChildHeight(_customNavbar, "CustomNavbar");
       // value.right = right;
-      return RepaintBoundary(
-        key: _customNavbar,
-        child: Container(
-          width: widget.width,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: value.left,
-                right: value.right,
-                top: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(30)),
-                ),
+      return Container(
+        width: widget.width,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: value.left,
+              right: value.right,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(30)),
               ),
-              Positioned(
-                top: 3,
-                left: 30,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/home");
-                    value.switchMenu(menuState.home, widget.width);
-                  },
-                  icon: const Align(
-                      alignment: Alignment.centerLeft, child: Icon(Icons.home)),
-                  color: Colors.white,
-                ),
+            ),
+            Positioned(
+              top: 3,
+              left: 30,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/home");
+                  value.switchMenu(menuState.home, widget.width);
+                  print("Going back home");
+                },
+                icon: const Align(
+                    alignment: Alignment.centerLeft, child: Icon(Icons.home)),
+                color: Colors.white,
               ),
-              Positioned(
-                top: 3,
-                right: 30,
-                child: IconButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {
-                    value.switchMenu(menuState.cart, widget.width);
-                    Navigator.pushNamed(context, "/shop");
-                    print("Going to shop");
-                  },
-                  icon: const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(Icons.shopping_cart)),
-                  color: Colors.white,
-                ),
+            ),
+            Positioned(
+              top: 3,
+              right: 30,
+              child: IconButton(
+                padding: const EdgeInsets.all(0),
+                onPressed: () {
+                  value.switchMenu(menuState.cart, widget.width);
+                  value.setTabState(true);
+                  Navigator.pushNamed(context, "/shop");
+                  print("Going to shop");
+                },
+                icon: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Icon(Icons.shopping_cart)),
+                color: Colors.white,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     });
