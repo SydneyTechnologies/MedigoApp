@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/sideBar.dart';
 import 'package:medigo_app/constants.dart';
+import 'package:medigo_app/services/LayoutManagerProvider.dart';
+import 'package:provider/provider.dart';
 export 'sideBar.dart';
 export 'medInfoWidget.dart';
 
@@ -209,24 +211,24 @@ class _CustomNavBarState extends State<CustomNavBar> {
   double left = 0;
   double right = 0;
 
-  switchMenu(menuState state, double value) {
-    setState(() {
-      currentState = state;
-      switch (currentState) {
-        case menuState.home:
-          left = 0;
-          right = (value / 2) - (0.05 * value);
-          break;
-        case menuState.cart:
-          left = (value / 2) - (0.05 * value);
-          right = 0;
-          break;
-        default:
-          left = 0;
-          right = (value / 2) - (0.05 * value);
-      }
-    });
-  }
+  // switchMenu(menuState state, double value) {
+  //   setState(() {
+  //     currentState = state;
+  //     switch (currentState) {
+  //       case menuState.home:
+  //         left = 0;
+  //         right = (value / 2) - (0.05 * value);
+  //         break;
+  //       case menuState.cart:
+  //         left = (value / 2) - (0.05 * value);
+  //         right = 0;
+  //         break;
+  //       default:
+  //         left = 0;
+  //         right = (value / 2) - (0.05 * value);
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -236,47 +238,66 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            left: left,
-            right: right,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(30)),
-            ),
+    GlobalKey _customNavbar = GlobalKey();
+
+    return Consumer<LayoutManagerProvider>(builder: (context, value, child) {
+      value.storeChildHeight(_customNavbar, "CustomNavbar");
+      // value.right = right;
+      return RepaintBoundary(
+        key: _customNavbar,
+        child: Container(
+          width: widget.width,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(30),
           ),
-          Positioned(
-            top: 3,
-            left: 30,
-            child: IconButton(
-              onPressed: () => switchMenu(menuState.home, widget.width),
-              icon: const Icon(Icons.home),
-              color: Colors.white,
-            ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: value.left,
+                right: value.right,
+                top: 0,
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              Positioned(
+                top: 3,
+                left: 30,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/home");
+                    value.switchMenu(menuState.home, widget.width);
+                  },
+                  icon: const Align(
+                      alignment: Alignment.centerLeft, child: Icon(Icons.home)),
+                  color: Colors.white,
+                ),
+              ),
+              Positioned(
+                top: 3,
+                right: 30,
+                child: IconButton(
+                  padding: const EdgeInsets.all(0),
+                  onPressed: () {
+                    value.switchMenu(menuState.cart, widget.width);
+                    Navigator.pushNamed(context, "/shop");
+                  },
+                  icon: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(Icons.shopping_cart)),
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            top: 3,
-            right: 30,
-            child: IconButton(
-              padding: const EdgeInsets.all(0),
-              onPressed: () => switchMenu(menuState.cart, widget.width),
-              icon: const Icon(Icons.shopping_cart),
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
 
@@ -314,6 +335,88 @@ class PageLayout extends StatelessWidget {
           ],
         ),
       )),
+    );
+  }
+}
+
+class PageTabs extends StatefulWidget {
+  PageTabs({super.key});
+
+  @override
+  State<PageTabs> createState() => _PageTabsState();
+}
+
+class _PageTabsState extends State<PageTabs> {
+  bool prescriptionActive = true;
+
+  Map activeState = {
+    "color": const Color(0xFF157145),
+    "showText": true,
+    "style": const TextStyle(
+      color: Colors.white,
+    ),
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, "/shop");
+            setState(() {
+              prescriptionActive = true;
+            });
+          },
+          child: Container(
+            padding: const EdgeInsetsDirectional.all(11.0),
+            decoration: BoxDecoration(
+              color: prescriptionActive
+                  ? activeState["color"]
+                  : Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            child: Row(
+              children: [
+                Image.asset("assets/images/hospital.png"),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Text(
+                  prescriptionActive ? "Prescriptions" : "",
+                ),
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, "/non-prescription");
+            setState(() {
+              prescriptionActive = false;
+            });
+          },
+          child: Container(
+            padding: const EdgeInsetsDirectional.all(11.0),
+            decoration: BoxDecoration(
+              color: !prescriptionActive
+                  ? activeState["color"]
+                  : Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            child: Row(
+              children: [
+                Text(!prescriptionActive ? "Non-prescriptions" : ""),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Image.asset("assets/images/pill.png"),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
