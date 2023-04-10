@@ -7,7 +7,8 @@ export 'sideBar.dart';
 export 'medInfoWidget.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({super.key, required this.title, this.hint, required this.myController});
+  const InputField(
+      {super.key, required this.title, this.hint, required this.myController});
   final String title;
   final String? hint;
   final TextEditingController myController;
@@ -27,7 +28,7 @@ class InputField extends StatelessWidget {
             height: 5,
           ),
           TextField(
-            controller: ,
+            controller: myController,
             decoration: InputDecoration(
               hintText: (hint == null) ? "" : hint,
               border: OutlineInputBorder(

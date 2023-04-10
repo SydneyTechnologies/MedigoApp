@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
 import 'package:medigo_app/services/ApiService.dart';
+import 'package:medigo_app/models/user.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -83,9 +84,18 @@ class LoginScreen extends StatelessWidget {
                       ),
                       CustomButton(
                         text: "Sign In",
-                        onPress: () {
+                        onPress: () async {
                           // this is where we would add the login logic for the application
-                          Navigator.pushNamed(context, "/home");
+                          var _authLogin = AuthLogin(
+                              email: EmailController.text,
+                              password: PasswordController.text);
+                          print(EmailController.text);
+                          print(PasswordController.text);
+                          var loginResult = await Login(_authLogin);
+
+                          print(loginResult?[0]);
+
+                          // Navigator.pushNamed(context, "/home");
                         },
                       ),
                       Center(

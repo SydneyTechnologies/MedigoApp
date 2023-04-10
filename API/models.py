@@ -23,6 +23,10 @@ class Issuer(BaseModel):
     name: str
 
 
+class AuthLogin(BaseModel):
+    email: str
+    password: str
+    
 class User(BaseModel):
     # needed for authentication 
     email: str
