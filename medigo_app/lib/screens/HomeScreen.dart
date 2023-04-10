@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const UserProfile(),
+                  UserProfile(),
                   const Text(
                     "Payment History",
                     style: TextStyle(

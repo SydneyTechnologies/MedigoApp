@@ -5,9 +5,14 @@ import 'package:medigo_app/models/user.dart';
 
 class AuthProvider with ChangeNotifier {
   User? currentUser;
+  UserToken? userToken;
+  var authHeader;
 
-  void setUser(User user) {
+  void setUserCredentials(User user, UserToken tokens, header) {
     currentUser = user;
+    userToken = tokens;
+    authHeader = header;
+    print(currentUser?.email);
     notifyListeners();
   }
 }
