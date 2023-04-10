@@ -8,11 +8,16 @@ export 'sideBar.dart';
 export 'medInfoWidget.dart';
 
 class InputField extends StatelessWidget {
-  const InputField(
-      {super.key, required this.title, this.hint, required this.myController});
+  InputField(
+      {super.key,
+      required this.title,
+      this.hint,
+      required this.myController,
+      required this.onChanged});
   final String title;
   final String? hint;
   final TextEditingController myController;
+  void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +33,16 @@ class InputField extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          TextField(
+          TextFormField(
             controller: myController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               hintText: (hint == null) ? "" : hint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
+            onChanged: onChanged,
           ),
         ],
       ),

@@ -14,16 +14,19 @@ class NonPrescriptionScreen extends StatelessWidget {
           const SizedBox(
             height: 44.0,
           ),
-          GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2, // number of columns in the grid
-    crossAxisSpacing: 10.0, // spacing between columns
-    mainAxisSpacing: 10.0, // spacing between rows
-  ), itemBuilder: (BuildContext context, int index) {
-    return Container(
-      // create a widget for each item in the grid
-      child: ProductCard(), // replace with your own widget
-    );
-  },)
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 198.0,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // number of columns in the grid
+                crossAxisSpacing: 10.0, // spacing between columns
+                mainAxisSpacing: 10.0, // spacing between rows
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return const ProductCard();
+              },
+            ),
+          )
         ],
       ),
     ));
@@ -40,14 +43,26 @@ class ProductCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsetsDirectional.all(11.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const ImageHolder(),
             const Text("COSMO Sachet Sanitary Hand Wipes"),
             const SizedBox(
               height: 11.0,
             ),
-            const Text("AED 2.00/sachet"),
+            const Text(
+              "AED 2.00/sachet",
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
+              textAlign: TextAlign.start,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: const [
                 Icon(Icons.remove_circle),
                 Text("5"),

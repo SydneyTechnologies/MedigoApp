@@ -10,8 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return PageLayout(
-      child: SizedBox(
-        height: height - 129,
+      child: Expanded(
         child: SingleChildScrollView(
           child: Column(
             children: [
