@@ -12,6 +12,8 @@ class User {
   User({
     required this.email,
     required this.password,
+    required this.mobile,
+    required this.nationality,
     required this.fullName,
     required this.dateOfBirth,
     required this.maritalStatus,
@@ -21,8 +23,10 @@ class User {
 
   String email;
   String password;
+  String mobile;
+  String nationality;
   String fullName;
-  String dateOfBirth;
+  DateTime dateOfBirth;
   String maritalStatus;
   String insuranceNo;
   List<String> trustedPersonnel;
@@ -30,6 +34,8 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         email: json["email"],
         password: json["password"],
+        mobile: json["mobile"],
+        nationality: json["Nationality"],
         fullName: json["full_name"],
         dateOfBirth: json["date_of_birth"],
         maritalStatus: json["marital_status"],
@@ -41,6 +47,8 @@ class User {
   Map<String, dynamic> toJson() => {
         "email": email,
         "password": password,
+        "mobile": mobile,
+        "Nationality": nationality,
         "full_name": fullName,
         "date_of_birth": dateOfBirth,
         "marital_status": maritalStatus,

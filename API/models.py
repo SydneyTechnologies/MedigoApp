@@ -13,9 +13,11 @@ class MedicationType(str , Enum):
     Hygiene = "hygiene"
     Anti_inflammatory = "anti-inflammatory"
 
-class MaritalStatus(str , Enum):
-    Married = "Married"
-    Single = "Single"
+class MaritalStatus(str, Enum):
+    single = "single"
+    married = "married"
+    divorced = "divorced"
+    widowed = "widowed"
 
 
 
@@ -26,23 +28,40 @@ class Issuer(BaseModel):
 class AuthLogin(BaseModel):
     email: str
     password: str
-    
+
 class User(BaseModel):
     # needed for authentication 
     email: str
     password: str
 
+    mobile: str | None = None
+    Nationality: str
     full_name: str
     date_of_birth: str = Field(default=str(datetime.today()))
     marital_status: MaritalStatus
     insurance_no: str
     trusted_personnel: list[str] | None = None
 
+
     def __str__(self) -> str:
         return self.email
 
     class Config:
         allow_population_by_field_name = True
+        schema_extra = {
+            "example":{
+            "email": "example@example.com",
+            "password": "password123",
+            "mobile": "123-456-7890",
+            "Nationality": "USA",
+            "full_name": "John Doe",
+            "date_of_birth":
+            "2023-04-10",
+            "marital_status": MaritalStatus.single,
+            "insurance_no": "123456789",
+            "trusted_personnel": ["Jane Doe", "Bob Smith"],
+        }
+    }
 
 
 class Medication(BaseModel):
