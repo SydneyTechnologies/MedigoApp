@@ -156,6 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       mobile: value.phoneNumberController.text,
                                       nationality:
                                           value.nationalityController.text,
+                                      gender: value.genderController.text,
                                       dateOfBirth:
                                           value.dateOfBirthController.text,
                                       maritalStatus:

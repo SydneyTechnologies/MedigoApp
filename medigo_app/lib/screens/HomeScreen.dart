@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    "Payment History",
+                    "Wallet Balance",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 30.0,
@@ -32,26 +32,29 @@ class HomeScreen extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
                   const Text(
-                    "315.78",
+                    "AED200.00",
                     style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 64.0,
-                    ),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 40.0,
+                        color: Colors.black),
                     textAlign: TextAlign.end,
                   ),
                   const Text(
                     "March, 2023",
                     textAlign: TextAlign.end,
                   ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
                   const Text(
-                    "Collection History",
+                    "Prescription History",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 30.0,
                     ),
                   ),
                   const SizedBox(
-                    height: 30.0,
+                    height: 10.0,
                   ),
                   Container(
                     color: Color.fromARGB((0.43 * 255).toInt(), 184, 197, 214),

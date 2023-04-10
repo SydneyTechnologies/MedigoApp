@@ -20,7 +20,6 @@ Future<dynamic?> Login(AuthLogin loginData) async {
       // if we have a good status code, then we need to get access_token and the refresh_token for this specific user
       UserToken tokens = UserTokenFromJson(response.body);
       // after getting the tokens we need to get the current user and the headers
-      print(tokens.accessToken);
       var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

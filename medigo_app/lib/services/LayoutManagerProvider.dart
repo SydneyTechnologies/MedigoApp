@@ -16,6 +16,7 @@ class LayoutManagerProvider extends ChangeNotifier {
   TextEditingController emailAddressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController maritalStatusController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController insuranceCardController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

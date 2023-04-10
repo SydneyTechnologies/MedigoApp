@@ -150,7 +150,7 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5),
+        margin: const EdgeInsets.fromLTRB(5, 0, 5, 20),
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
         width: double.infinity,
         decoration: BoxDecoration(
@@ -181,7 +181,7 @@ class UserProfile extends StatelessWidget {
                       style: ProfileStyles.headings,
                     ),
                     Text(
-                      (userData == null) ? "Male" : userData!.insuranceNo,
+                      (userData == null) ? "Male" : userData!.gender,
                       style: ProfileStyles.hvalues,
                     ),
                     const Text(
@@ -201,7 +201,7 @@ class UserProfile extends StatelessWidget {
                       style: ProfileStyles.headings,
                     ),
                     Text(
-                      (userData == null) ? "0568794852" : userData!.insuranceNo,
+                      (userData == null) ? "0568794852" : userData!.mobile,
                       style: ProfileStyles.hvalues,
                     ),
                     const Text(
@@ -221,7 +221,7 @@ class UserProfile extends StatelessWidget {
                       style: ProfileStyles.headings,
                     ),
                     Text(
-                      (userData == null) ? "10/11/2002" : userData!.insuranceNo,
+                      (userData == null) ? "10/11/2002" : userData!.dateOfBirth,
                       style: ProfileStyles.hvalues,
                     ),
                     const Text(
@@ -229,7 +229,7 @@ class UserProfile extends StatelessWidget {
                       style: ProfileStyles.headings,
                     ),
                     Text(
-                      (userData == null) ? "Nigerian" : userData!.insuranceNo,
+                      (userData == null) ? "Nigerian" : userData!.nationality,
                       style: ProfileStyles.hvalues,
                     ),
                   ],
