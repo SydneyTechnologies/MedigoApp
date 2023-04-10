@@ -93,8 +93,6 @@ class LoginScreen extends StatelessWidget {
                           print(PasswordController.text);
                           var loginResult = await Login(_authLogin);
 
-                          print(loginResult?[0]);
-
                           // Navigator.pushNamed(context, "/home");
                         },
                       ),

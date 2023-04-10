@@ -29,8 +29,6 @@ Future<List<dynamic>?> Login(AuthLogin loginData) async {
       response = await http.get(Uri.parse(MedigoAPI.getUser), headers: headers);
       if (response.statusCode == 200) {
         User current_user = UserFromJson(response.body);
-        print(current_user.email);
-        print(tokens.accessToken);
         return [current_user, headers];
       }
     }
