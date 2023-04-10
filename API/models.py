@@ -1,7 +1,7 @@
 # here we will define the models to be used for our application
 from pydantic import BaseModel, Field
 from typing import Any
-from bson import ObjectId
+import uuid
 from enum import Enum 
 from datetime import datetime
 from bson import json_util
@@ -96,20 +96,29 @@ class AuthToken(BaseModel):
     access_token: str
     refresh_token: str
     
-class PrescribedMedication(Medication):
-    instructions: str
-    issuer: Issuer | None = None
-    patient: User
+class PrescribedMedication(BaseModel):
+    medication_name: str
+    instructions: str | None = None
+    issuer: str | None = None
 
     class Config:
         title = 'Prescribed Medication'
-        description = 'A data model for storing information about prescribed medications'
+        description = 'A data model for storing information about a prescription'
         allow_population_by_field_name = True
+        schema_extra = {
+        "example": {
+            "medication_name": "Ibuprofen",
+            "instructions": "Take one tablet every six hours as needed for pain",
+            "issuer": "Dr John Doe"
+            }
+        }
     
 class Prescription(BaseModel):
-    patient: User
+    id: str = Field(default=uuid.uuid4())
+    patient_email: str
     prescription_date:str = Field(default=str(datetime.today()))
     prescription_list: list[PrescribedMedication]
+    collected:bool = Field(default=False)
 
     class Config:
         title = 'Prescription'

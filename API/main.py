@@ -71,17 +71,57 @@ def get_user(user = Depends(get_current_user)) -> User:
     return user
 
 # an endpoint to list all the prescriptions 
-@app.get("/prescriptions", summary="list all the prescriptions for the current user this is a protected route")
-def list_prescriptions(user = Depends(get_current_user)) -> list[Prescription]:
+@app.get("/prescriptions/{user_email}", summary="list all the prescriptions for the current user this is a protected route")
+def list_prescriptions(user_email:str) -> list[Prescription]:
     # first get all the prescriptions in the database for a particular user
-    prescriptions = db_client.MedigoApp.Prescription.find({"patient": user})
+    prescriptions = db_client.MedigoApp.Prescription.find({"patient": user_email})
     presciption_list = []
     for item in prescriptions:
         item.pop("_id")
         presciption_list.append(Prescription(**item))
     return presciption_list
 
+@app.post("/prescriptions", summary="This endpoint is responsible for creating user prescription", response_model=Prescription)
+def create_prescription(prescription_data: Prescription):
+    # first we need to validate the data gotten from the prescription_data
+    # does the patient exist?
+    patient = db_client.MedigoApp.User.find_one({"email": prescription_data.patient_email}) 
+    if patient is not None:
+        # if the patient is not none then we check if the items in the prescription list are actual medications stored
+        # on our database
+        prescription = prescription_data.prescription_list
+        new_prescription_list= []
+        for medication in prescription:
+        #     # so if the medications actually exists in the database add them to the new list, else discard them
+             if db_client.MedigoApp.Medication.find_one({"name":medication.medication_name}) is not None:
+                 new_prescription_list.append(medication)
+        # after currating a new list of prescribed medications that actually exist, then we need to create the prescription and put it in
+        # the database
+        prescription_data.prescription_list = new_prescription_list
+        # now we insert this into the database 
+        db_client.MedigoApp.Prescription.insert_one(prescription_data.dict())
+        return prescription_data
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="patient does not exist")
 
+            
+@app.put("/collect/{prescription_id}")
+def collect_prescription(prescription_id: str):
+    # first we get the prescription item from the database 
+    prescription = db_client.MedigoApp.Prescription.update_one({"id":prescription_id}, {"$set":{"collected": True}})
+    if prescription is not None:
+        return JSONResponse(content={"message": f"prescription object with ID: {prescription_id} has been collected"})
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="prescription not found")
+
+
+
+# endpoint for deleting prescriptions 
+@app.delete('/prescriptions/{prescription_id}')
+def delete_prescription(prescription_id: str):
+    prescription = db_client.MedigoApp.Prescription.delete_one({"id":prescription_id})
+    if prescription is not None:
+        return JSONResponse(content={"message": f"prescription object with ID: {prescription_id} has been deleted"})
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="prescription not found")
 # Create the CRUD endpoints
 @app.post('/medications', response_model=Medication)
 async def create_medication(medication: Medication):
