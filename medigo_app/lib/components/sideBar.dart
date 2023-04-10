@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'customWidgets.dart';
 
 class CustomSideBar extends StatelessWidget {
   const CustomSideBar({super.key});
@@ -138,24 +139,6 @@ class SectionTile extends StatelessWidget {
             Spacer()
           ],
         ),
-      ),
-    );
-  }
-}
-
-class Avatar extends StatelessWidget {
-  const Avatar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(100)),
-      child: const Icon(
-        Icons.person_rounded,
-        size: 80,
       ),
     );
   }

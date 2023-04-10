@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/services/AuthenticationProvider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,7 +19,11 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  UserProfile(),
+                  Consumer<AuthProvider>(
+                    builder: (context, value, child) => UserProfile(
+                      userData: value.currentUser,
+                    ),
+                  ),
                   const Text(
                     "Payment History",
                     style: TextStyle(

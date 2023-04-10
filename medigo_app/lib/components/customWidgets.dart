@@ -143,54 +143,88 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        padding: const EdgeInsets.all(20),
-        height: 200,
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: Colors.green, borderRadius: BorderRadius.circular(10)),
+            color: ProfileStyles.cardColor,
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.white,
-            ),
-            Text(
-              (userData == null) ? "Medigo User" : userData!.email,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
+            Avatar(),
+            Text((userData == null) ? "Medigo User" : userData!.fullName,
+                style: ProfileStyles.headings.copyWith(fontSize: 20)),
             Text(
               (userData == null)
                   ? "2048-2348-3245-3422"
                   : userData!.insuranceNo,
-              style: TextStyle(color: Colors.white),
+              style: ProfileStyles.issurance,
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  children: const [
-                    Text("Gender"),
-                    Text("HI"),
-                    Text("Status"),
-                  ],
-                ),
-                Column(
-                  children: const [
-                    Text("Gender"),
-                    Text("Status"),
-                  ],
-                ),
-                Column(
-                  children: const [
-                    Text("Gender"),
-                    SizedBox(
-                      height: 10,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Gender",
+                      style: ProfileStyles.headings,
                     ),
-                    Text("Status"),
+                    Text(
+                      (userData == null) ? "Male" : userData!.insuranceNo,
+                      style: ProfileStyles.hvalues,
+                    ),
+                    const Text(
+                      "Status",
+                      style: ProfileStyles.headings,
+                    ),
+                    const Text(
+                      "Principal",
+                      style: ProfileStyles.hvalues,
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Text(
+                      "Mobile",
+                      style: ProfileStyles.headings,
+                    ),
+                    Text(
+                      (userData == null) ? "0568794852" : userData!.insuranceNo,
+                      style: ProfileStyles.hvalues,
+                    ),
+                    const Text(
+                      "Marital Status",
+                      style: ProfileStyles.headings,
+                    ),
+                    Text(
+                      (userData == null) ? "Single" : userData!.maritalStatus,
+                      style: ProfileStyles.hvalues,
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Text(
+                      "DOB",
+                      style: ProfileStyles.headings,
+                    ),
+                    Text(
+                      (userData == null) ? "10/11/2002" : userData!.insuranceNo,
+                      style: ProfileStyles.hvalues,
+                    ),
+                    const Text(
+                      "Nationality",
+                      style: ProfileStyles.headings,
+                    ),
+                    Text(
+                      (userData == null) ? "Nigerian" : userData!.insuranceNo,
+                      style: ProfileStyles.hvalues,
+                    ),
                   ],
                 ),
               ],
@@ -419,6 +453,25 @@ class _PageTabsState extends State<PageTabs> {
           ),
         )
       ],
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  const Avatar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(100)),
+      child: const Icon(
+        Icons.person_rounded,
+        size: 50,
+        color: Colors.green,
+      ),
     );
   }
 }
