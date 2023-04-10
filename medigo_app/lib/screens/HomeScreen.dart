@@ -87,71 +87,77 @@ class CollectionHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: const Color(0xFF157145),
-      ),
-      margin: const EdgeInsetsDirectional.only(bottom: 8.0),
-      child: PaddedContainer(
-        pt: 14,
-        pb: 14,
-        pl: 14,
-        pr: 14,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 128.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset("assets/images/adderall.png"),
-                  SizedBox(
-                    width: 94.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          "Adderrall",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          "30th March, 2023",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w200),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamed(context, '/sign-in');
+        return true;
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: const Color(0xFF157145),
+        ),
+        margin: const EdgeInsetsDirectional.only(bottom: 8.0),
+        child: PaddedContainer(
+          pt: 14,
+          pb: 14,
+          pl: 14,
+          pr: 14,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 128.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset("assets/images/adderall.png"),
+                    SizedBox(
+                      width: 94.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Text(
+                            "Adderrall",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.start,
+                          ),
+                          Text(
+                            "30th March, 2023",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w200),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              width: 110.0,
-              child: Column(
-                children: const [
-                  Text(
-                    "50mg/30tablets",
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.end,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.chevron_right,
-                      color: Colors.white,
+              SizedBox(
+                width: 110.0,
+                child: Column(
+                  children: const [
+                    Text(
+                      "50mg/30tablets",
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.end,
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

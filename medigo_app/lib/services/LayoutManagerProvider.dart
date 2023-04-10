@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
@@ -20,6 +21,17 @@ class LayoutManagerProvider extends ChangeNotifier {
   TextEditingController nationalityController = TextEditingController();
   TextEditingController insuranceCardController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  // Page Tabs state
+  bool prescriptionActive = true;
+
+  Map activeState = {
+    "color": const Color(0xFF157145),
+    "showText": true,
+    "style": const TextStyle(
+      color: Colors.white,
+    ),
+  };
 
   double storeChildHeight(GlobalKey widgetKey, String widgetName) {
     double boxSize = 0;
@@ -52,6 +64,11 @@ class LayoutManagerProvider extends ChangeNotifier {
         left = 0;
         right = (value / 2) - (0.05 * value);
     }
+    notifyListeners();
+  }
+
+  void setTabState(bool active) {
+    prescriptionActive = active;
     notifyListeners();
   }
 }

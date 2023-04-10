@@ -51,7 +51,7 @@ Future<dynamic?> Register(User registerData) async {
         });
     if (response.statusCode == 200) {
       // if we have a good status code, then we need to store the user data in the provider state
-      return response.body;
+      return UserFromJson(response.body);
     }
     print(response.body);
   } catch (e) {

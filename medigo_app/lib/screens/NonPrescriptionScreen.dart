@@ -1,35 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/services/LayoutManagerProvider.dart';
+import 'package:provider/provider.dart';
 
 class NonPrescriptionScreen extends StatelessWidget {
   const NonPrescriptionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PageLayout(
-        child: Container(
-      child: Column(
-        children: [
-          PageTabs(),
-          const SizedBox(
-            height: 44.0,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 198.0,
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // number of columns in the grid
-                crossAxisSpacing: 10.0, // spacing between columns
-                mainAxisSpacing: 10.0, // spacing between rows
+    return Consumer<LayoutManagerProvider>(
+      builder: (context, value, child) => WillPopScope(
+        onWillPop: () async {
+          Navigator.pushNamed(context, "/shop");
+          value.setTabState(true);
+          return true;
+        },
+        child: PageLayout(
+            child: Container(
+          child: Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  PageTabs(),
+                  const SizedBox(
+                    height: 44.0,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 198.0,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // number of columns in the grid
+                        crossAxisSpacing: 10.0, // spacing between columns
+                        mainAxisSpacing: 10.0, // spacing between rows
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return const ProductCard();
+                      },
+                    ),
+                  )
+                ],
               ),
-              itemBuilder: (BuildContext context, int index) {
-                return const ProductCard();
-              },
             ),
-          )
-        ],
+          ),
+        )),
       ),
-    ));
+    );
   }
 }
 

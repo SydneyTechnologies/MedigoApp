@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/constants.dart';
 import 'package:medigo_app/services/LayoutManagerProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -8,55 +9,46 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _childKey = GlobalKey();
-
-    double childHeight = 0;
-
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   (timeStamp) {
-    //     RenderBox? renderBox =
-    //         _childKey.currentContext?.findRenderObject() as RenderBox?;
-    //     if (renderBox != null) {
-    //       childHeight = renderBox.size.height;
-    //       print("Child widget height: $childHeight");
-    //     }
-    //   },
-    // );
-
-    return Consumer<LayoutManagerProvider>(builder: (context, value, child) {
-      // value.storeChildHeight(_childKey, "PageTabs");
-      return PageLayout(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            RepaintBoundary(
-              key: _childKey,
-              child: Center(
-                child: PageTabs(),
+    return Consumer<LayoutManagerProvider>(
+      builder: (context, value, child) => WillPopScope(
+        onWillPop: () async {
+          Navigator.pushNamed(context, "/home");
+          value.switchMenu(menuState.home, 200);
+          return true;
+        },
+        child: PageLayout(
+          child: Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: PageTabs(),
+                  ),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding:
+                              const EdgeInsetsDirectional.only(bottom: 10.0),
+                          child: const DrugTile(),
+                        );
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
-            const SizedBox(
-              height: 50.0,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  ((value.widgetHeights["CustomNavbar"])!.toInt() +
-                      childHeight +
-                      104 +
-                      50),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsetsDirectional.only(bottom: 10.0),
-                    child: const DrugTile(),
-                  );
-                },
-              ),
-            )
-          ],
+          ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

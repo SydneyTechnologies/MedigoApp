@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
 import 'package:medigo_app/models/user.dart';
 import 'package:medigo_app/services/ApiService.dart';
+import 'package:medigo_app/services/AuthenticationProvider.dart';
 import 'package:medigo_app/services/LayoutManagerProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String _fullName;
     String _dateOfBirth;
     String _emailAddress;
+    String _gender;
     String _phoneNumber;
     String _maritalStatus;
     String _insuranceCard;
@@ -96,6 +98,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               },
                             ),
                             InputField(
+                              title: "Gender",
+                              hint: "Enter your gender (M/F)",
+                              myController: value.genderController,
+                              onChanged: (input) {
+                                setState(() {
+                                  _gender = input;
+                                });
+                              },
+                            ),
+                            InputField(
                               title: "Phone Number",
                               myController: value.phoneNumberController,
                               onChanged: (input) {
@@ -106,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             InputField(
                               title: "Nationality",
-                              myController: value.maritalStatusController,
+                              myController: value.nationalityController,
                               onChanged: (input) {
                                 setState(() {
                                   _nationality = input;
@@ -161,35 +173,41 @@ class _RegisterPageState extends State<RegisterPage> {
                             const SizedBox(
                               height: 15.0,
                             ),
-                            CustomButton(
-                                text: "Create Account",
-                                onPress: () async {
-                                  try {
-                                    var _userData = User(
-                                      email: value.emailAddressController.text,
-                                      password: value.passwordController.text,
-                                      fullName: value.fullNameController.text,
-                                      mobile: value.phoneNumberController.text,
-                                      nationality:
-                                          value.nationalityController.text,
-                                      gender: value.genderController.text,
-                                      dateOfBirth:
-                                          value.dateOfBirthController.text,
-                                      maritalStatus:
-                                          value.maritalStatusController.text,
-                                      insuranceNo:
-                                          value.insuranceCardController.text,
-                                      trustedPersonnel: [],
-                                    );
-                                    var _registerRes =
-                                        await Register(_userData);
-                                    if (_registerRes != null) {
-                                      Navigator.pushNamed(context, "/register");
-                                    }
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                }),
+                            Consumer<AuthProvider>(
+                              builder: (context, authVal, child) =>
+                                  CustomButton(
+                                      text: "Create Account",
+                                      onPress: () async {
+                                        try {
+                                          var _userData = User(
+                                            email: value
+                                                .emailAddressController.text,
+                                            password:
+                                                value.passwordController.text,
+                                            fullName:
+                                                value.fullNameController.text,
+                                            mobile: value
+                                                .phoneNumberController.text,
+                                            nationality: value
+                                                .nationalityController.text,
+                                            gender: value.genderController.text,
+                                            dateOfBirth: value
+                                                .dateOfBirthController.text,
+                                            maritalStatus: value
+                                                .maritalStatusController.text,
+                                            insuranceNo: value
+                                                .insuranceCardController.text,
+                                            trustedPersonnel: [],
+                                          );
+                                          User _registerRes =
+                                              await Register(_userData);
+                                          Navigator.pushNamed(context, "/home");
+                                          authVal.setUser(_registerRes);
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      }),
+                            ),
                             const SizedBox(
                               height: 50.0,
                             )

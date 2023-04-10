@@ -10,6 +10,11 @@ enum menuState {
   cart,
 }
 
+enum tabState {
+  prescription,
+  nonPrescription,
+}
+
 const TextStyle secondaryStyle = TextStyle(
   color: Colors.white,
   fontSize: 18,

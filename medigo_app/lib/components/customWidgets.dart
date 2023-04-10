@@ -254,25 +254,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
   double left = 0;
   double right = 0;
 
-  // switchMenu(menuState state, double value) {
-  //   setState(() {
-  //     currentState = state;
-  //     switch (currentState) {
-  //       case menuState.home:
-  //         left = 0;
-  //         right = (value / 2) - (0.05 * value);
-  //         break;
-  //       case menuState.cart:
-  //         left = (value / 2) - (0.05 * value);
-  //         right = 0;
-  //         break;
-  //       default:
-  //         left = 0;
-  //         right = (value / 2) - (0.05 * value);
-  //     }
-  //   });
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -329,6 +310,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                   onPressed: () {
                     value.switchMenu(menuState.cart, widget.width);
                     Navigator.pushNamed(context, "/shop");
+                    print("Going to shop");
                   },
                   icon: const Align(
                       alignment: Alignment.centerRight,
@@ -382,84 +364,67 @@ class PageLayout extends StatelessWidget {
   }
 }
 
-class PageTabs extends StatefulWidget {
+class PageTabs extends StatelessWidget {
   PageTabs({super.key});
 
   @override
-  State<PageTabs> createState() => _PageTabsState();
-}
-
-class _PageTabsState extends State<PageTabs> {
-  bool prescriptionActive = true;
-
-  Map activeState = {
-    "color": const Color(0xFF157145),
-    "showText": true,
-    "style": const TextStyle(
-      color: Colors.white,
-    ),
-  };
-
-  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, "/shop");
-            setState(() {
-              prescriptionActive = true;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsetsDirectional.all(11.0),
-            decoration: BoxDecoration(
-              color: prescriptionActive
-                  ? activeState["color"]
-                  : Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(35.0),
-            ),
-            child: Row(
-              children: [
-                Image.asset("assets/images/hospital.png"),
-                const SizedBox(
-                  width: 15.0,
-                ),
-                Text(
-                  prescriptionActive ? "Prescriptions" : "",
-                ),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, "/non-prescription");
-            setState(() {
-              prescriptionActive = false;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsetsDirectional.all(11.0),
-            decoration: BoxDecoration(
-              color: !prescriptionActive
-                  ? activeState["color"]
-                  : Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(35.0),
-            ),
-            child: Row(
-              children: [
-                Text(!prescriptionActive ? "Non-prescriptions" : ""),
-                const SizedBox(
-                  width: 15.0,
-                ),
-                Image.asset("assets/images/pill.png"),
-              ],
+    return Consumer<LayoutManagerProvider>(
+      builder: (context, value, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/shop");
+              value.setTabState(true);
+            },
+            child: Container(
+              padding: const EdgeInsetsDirectional.all(11.0),
+              decoration: BoxDecoration(
+                color: value.prescriptionActive
+                    ? value.activeState["color"]
+                    : Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(35.0),
+              ),
+              child: Row(
+                children: [
+                  Image.asset("assets/images/hospital.png"),
+                  const SizedBox(
+                    width: 15.0,
+                  ),
+                  Text(
+                    value.prescriptionActive ? "Prescriptions" : "",
+                  ),
+                ],
+              ),
             ),
           ),
-        )
-      ],
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/non-prescription");
+              value.setTabState(false);
+            },
+            child: Container(
+              padding: const EdgeInsetsDirectional.all(11.0),
+              decoration: BoxDecoration(
+                color: !value.prescriptionActive
+                    ? value.activeState["color"]
+                    : Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(35.0),
+              ),
+              child: Row(
+                children: [
+                  Text(!value.prescriptionActive ? "Non-prescriptions" : ""),
+                  const SizedBox(
+                    width: 15.0,
+                  ),
+                  Image.asset("assets/images/pill.png"),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
