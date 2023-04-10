@@ -14,6 +14,7 @@ class User {
     required this.password,
     required this.mobile,
     required this.nationality,
+    required this.gender,
     required this.fullName,
     required this.dateOfBirth,
     required this.maritalStatus,
@@ -25,8 +26,9 @@ class User {
   String password;
   String mobile;
   String nationality;
+  String gender;
   String fullName;
-  DateTime dateOfBirth;
+  String dateOfBirth;
   String maritalStatus;
   String insuranceNo;
   List<String> trustedPersonnel;
@@ -35,7 +37,8 @@ class User {
         email: json["email"],
         password: json["password"],
         mobile: json["mobile"],
-        nationality: json["Nationality"],
+        nationality: json["nationality"],
+        gender: json["gender"],
         fullName: json["full_name"],
         dateOfBirth: json["date_of_birth"],
         maritalStatus: json["marital_status"],
@@ -48,7 +51,8 @@ class User {
         "email": email,
         "password": password,
         "mobile": mobile,
-        "Nationality": nationality,
+        "nationality": nationality,
+        "gender": gender,
         "full_name": fullName,
         "date_of_birth": dateOfBirth,
         "marital_status": maritalStatus,

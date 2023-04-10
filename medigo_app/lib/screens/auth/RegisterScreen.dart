@@ -114,10 +114,13 @@ class RegisterPage extends StatelessWidget {
                                   email: emailAddressController.text,
                                   password: passwordController.text,
                                   fullName: fullNameController.text,
+                                  mobile: phoneNumberController.text,
                                   dateOfBirth: dateOfBirthController.text,
                                   maritalStatus: maritalStatusController.text,
                                   insuranceNo: insuranceCardController.text,
+                                  gender: "Male",
                                   trustedPersonnel: [],
+                                  nationality: "",
                                 );
                               } catch (e) {
                                 print(e);
