@@ -26,7 +26,7 @@ class User {
   String mobile;
   String nationality;
   String fullName;
-  DateTime dateOfBirth;
+  String dateOfBirth;
   String maritalStatus;
   String insuranceNo;
   List<String> trustedPersonnel;

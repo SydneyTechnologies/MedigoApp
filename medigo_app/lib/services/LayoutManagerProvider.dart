@@ -11,6 +11,15 @@ class LayoutManagerProvider extends ChangeNotifier {
   double left = 0;
   double right = (200 / 2) - (0.05 * 200);
 
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController emailAddressController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController maritalStatusController = TextEditingController();
+  TextEditingController nationalityController = TextEditingController();
+  TextEditingController insuranceCardController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   double storeChildHeight(GlobalKey widgetKey, String widgetName) {
     double boxSize = 0;
     WidgetsBinding.instance.addPostFrameCallback(
