@@ -40,7 +40,7 @@ def register_user(user_data: User) -> User:
         return User(**inserted_user)
     
 @app.post("/login", summary="Login User")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
+def login(form_data: OAuth2PasswordRequestForm = Depends()) -> AuthToken:
     user = db_client.MedigoApp.User.find_one({"email": form_data.username})
     if user is None:
         raise HTTPException(
@@ -64,6 +64,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
         "access_token": create_access_token(user["email"]),
         "refresh_token": create_refresh_token(user["email"]),
     }
+
+
+@app.get("/me", summary="this gets the current user given the authorization headers")
+def get_user(user = Depends(get_current_user)) -> User:
+    return user
 
 # an endpoint to list all the prescriptions 
 @app.get("/prescriptions", summary="list all the prescriptions for the current user this is a protected route")

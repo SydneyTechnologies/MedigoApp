@@ -33,4 +33,5 @@ class MedigoAPI {
   // authentication routes
   static const String login = "$BASE_URL\\login";
   static const String register = "$BASE_URL\\register";
+  static const String getUser = "$BASE_URL\\me";
 }
