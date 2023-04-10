@@ -35,3 +35,13 @@ class MedigoAPI {
   static const String register = "${BASE_URL}register";
   static const String getUser = "${BASE_URL}me";
 }
+
+class ProfileStyles {
+  static const Color cardColor = Color(0xff1AB55B);
+  static const TextStyle headings =
+      TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15);
+  static const TextStyle issurance =
+      TextStyle(color: Colors.white, fontWeight: FontWeight.w100, fontSize: 20);
+  static const TextStyle hvalues =
+      TextStyle(color: Colors.white, fontWeight: FontWeight.w100, fontSize: 15);
+}
