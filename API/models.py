@@ -68,6 +68,7 @@ class Medication(BaseModel):
 class PrescribedMedication(Medication):
     instructions: str
     issuer: Issuer | None = None
+    patient: User
 
     class Config:
         title = 'Prescribed Medication'
