@@ -9,8 +9,8 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LayoutManagerProvider>(
-      builder: (context, value, child) => WillPopScope(
+    return Consumer<LayoutManagerProvider>(builder: (context, value, child) {
+      return WillPopScope(
         onWillPop: () async {
           Navigator.pushNamed(context, "/home");
           value.switchMenu(menuState.home, 200);
@@ -48,7 +48,7 @@ class ShopScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
