@@ -3,6 +3,7 @@ import 'package:medigo_app/components/sideBar.dart';
 import 'package:medigo_app/constants.dart';
 import 'package:medigo_app/services/LayoutManagerProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:medigo_app/models/user.dart';
 export 'sideBar.dart';
 export 'medInfoWidget.dart';
 
@@ -136,7 +137,8 @@ class PaddedContainer extends StatelessWidget {
 }
 
 class UserProfile extends StatelessWidget {
-  const UserProfile({super.key});
+  UserProfile({super.key, this.userData});
+  User? userData;
 
   @override
   Widget build(BuildContext context) {
@@ -152,13 +154,15 @@ class UserProfile extends StatelessWidget {
             const CircleAvatar(
               backgroundColor: Colors.white,
             ),
-            const Text(
-              "Medigo User",
+            Text(
+              (userData == null) ? "Medigo User" : userData!.email,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "2048 - 2348 - 3245 - 3422",
+            Text(
+              (userData == null)
+                  ? "2048-2348-3245-3422"
+                  : userData!.insuranceNo,
               style: TextStyle(color: Colors.white),
             ),
             const SizedBox(
@@ -170,18 +174,13 @@ class UserProfile extends StatelessWidget {
                 Column(
                   children: const [
                     Text("Gender"),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    Text("HI"),
                     Text("Status"),
                   ],
                 ),
                 Column(
                   children: const [
                     Text("Gender"),
-                    SizedBox(
-                      height: 10,
-                    ),
                     Text("Status"),
                   ],
                 ),

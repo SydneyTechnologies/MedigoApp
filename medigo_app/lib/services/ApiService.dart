@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:medigo_app/constants.dart';
 import 'package:medigo_app/models/user.dart';
 
-Future<List<dynamic>?> Login(AuthLogin loginData) async {
+Future<dynamic?> Login(AuthLogin loginData) async {
   // we will try and login the user using the endpoint from our API class in our constants file
   try {
     // send the login data to the endpoint
@@ -29,7 +29,7 @@ Future<List<dynamic>?> Login(AuthLogin loginData) async {
       response = await http.get(Uri.parse(MedigoAPI.getUser), headers: headers);
       if (response.statusCode == 200) {
         User current_user = UserFromJson(response.body);
-        return [current_user, headers];
+        return {"user": current_user, "token": tokens, "header": headers};
       }
     }
     print(response.body);

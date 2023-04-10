@@ -10,6 +10,7 @@ import 'package:medigo_app/services/LayoutManagerProvider.dart';
 import 'screens/TestScreen.dart';
 import 'package:medigo_app/services/NavigationProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:medigo_app/services/AuthenticationProvider.dart';
 
 void main() {
   runApp(const MedigoApp());
@@ -37,7 +38,10 @@ class _MedigoAppState extends State<MedigoApp> {
           ),
           ChangeNotifierProvider(
             create: (context) => LayoutManagerProvider(),
-          )
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AuthProvider(),
+          ),
         ],
         child: MyApp(
           child: const Scaffold(
