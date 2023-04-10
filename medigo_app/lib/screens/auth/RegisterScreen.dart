@@ -70,15 +70,19 @@ class _RegisterPageState extends State<RegisterPage> {
                             InputField(
                               title: "Full Name",
                               myController: value.fullNameController,
-                              onChanged: (input) {
-                                value.fullNameController.text = input;
+                              onChanged: (value) {
+                                setState(() {
+                                  _fullName = value;
+                                });
                               },
                             ),
                             InputField(
                               title: "Date of Birth",
                               myController: value.dateOfBirthController,
                               onChanged: (input) {
-                                value.dateOfBirthController.text = input;
+                                setState(() {
+                                  _dateOfBirth = input;
+                                });
                               },
                             ),
                             InputField(
@@ -86,21 +90,27 @@ class _RegisterPageState extends State<RegisterPage> {
                               hint: "Enter your email",
                               myController: value.emailAddressController,
                               onChanged: (input) {
-                                value.emailAddressController.text = input;
+                                setState(() {
+                                  _emailAddress = input;
+                                });
                               },
                             ),
                             InputField(
                               title: "Phone Number",
                               myController: value.phoneNumberController,
                               onChanged: (input) {
-                                value.phoneNumberController.text = input;
+                                setState(() {
+                                  _phoneNumber = input;
+                                });
                               },
                             ),
                             InputField(
                               title: "Nationality",
                               myController: value.maritalStatusController,
                               onChanged: (input) {
-                                value.maritalStatusController.text = input;
+                                setState(() {
+                                  _nationality = input;
+                                });
                                 print(input);
                               },
                             ),
@@ -108,14 +118,18 @@ class _RegisterPageState extends State<RegisterPage> {
                               title: "Marital Status",
                               myController: value.maritalStatusController,
                               onChanged: (input) {
-                                value.maritalStatusController.text = input;
+                                setState(() {
+                                  _maritalStatus = input;
+                                });
                               },
                             ),
                             InputField(
                               title: "Insurance Card No",
                               myController: value.insuranceCardController,
                               onChanged: (input) {
-                                value.insuranceCardController.text = input;
+                                setState(() {
+                                  _insuranceCard = input;
+                                });
                               },
                             ),
                             InputField(
@@ -123,7 +137,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               hint: "Create your password",
                               myController: value.passwordController,
                               onChanged: (input) {
-                                value.passwordController.text = input;
+                                setState(() {
+                                  _password = input;
+                                });
                                 print(input);
                               },
                             ),
