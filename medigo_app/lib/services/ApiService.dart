@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medigo_app/constants.dart';
 import 'package:medigo_app/models/user.dart';
+import 'package:medigo_app/models/prescription.dart';
 
 Future<dynamic?> Login(AuthLogin loginData) async {
   // we will try and login the user using the endpoint from our API class in our constants file
