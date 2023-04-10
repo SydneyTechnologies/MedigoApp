@@ -43,25 +43,25 @@ class RegisterPage extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const InputField(
-                          title: "Full Name",
-                        ),
-                        const InputField(
-                          title: "Date of Birth",
-                        ),
-                        const InputField(
-                          title: "Email",
-                        ),
-                        const InputField(
-                          title: "Marital Status",
-                        ),
-                        const InputField(
-                          title: "Insurance Card No",
-                        ),
-                        const InputField(
-                          title: "Create Password",
-                          hint: "Create your password",
-                        ),
+                        // const InputField(
+                        //   title: "Full Name",
+                        // ),
+                        // const InputField(
+                        //   title: "Date of Birth",
+                        // ),
+                        // const InputField(
+                        //   title: "Email",
+                        // ),
+                        // const InputField(
+                        //   title: "Marital Status",
+                        // ),
+                        // const InputField(
+                        //   title: "Insurance Card No",
+                        // ),
+                        // const InputField(
+                        //   title: "Create Password",
+                        //   hint: "Create your password",
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,

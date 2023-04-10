@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/services/ApiService.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  TextEditingController EmailController = TextEditingController();
+  TextEditingController PasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +53,16 @@ class LoginScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       Column(
-                        children: const [
+                        children: [
                           InputField(
                             title: "Your Email",
                             hint: "Enter your email",
+                            myController: EmailController,
                           ),
                           InputField(
                             title: "Password",
                             hint: "Enter your password",
+                            myController: PasswordController,
                           ),
                         ],
                       ),
@@ -78,6 +84,7 @@ class LoginScreen extends StatelessWidget {
                       CustomButton(
                         text: "Sign In",
                         onPress: () {
+                          // this is where we would add the login logic for the application
                           Navigator.pushNamed(context, "/home");
                         },
                       ),

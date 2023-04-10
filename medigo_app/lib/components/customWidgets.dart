@@ -7,9 +7,10 @@ export 'sideBar.dart';
 export 'medInfoWidget.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({super.key, required this.title, this.hint});
+  const InputField({super.key, required this.title, this.hint, required this.myController});
   final String title;
   final String? hint;
+  final TextEditingController myController;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class InputField extends StatelessWidget {
             height: 5,
           ),
           TextField(
+            controller: ,
             decoration: InputDecoration(
               hintText: (hint == null) ? "" : hint,
               border: OutlineInputBorder(
