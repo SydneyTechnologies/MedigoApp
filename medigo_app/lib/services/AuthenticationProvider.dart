@@ -15,4 +15,9 @@ class AuthProvider with ChangeNotifier {
     print(currentUser?.email);
     notifyListeners();
   }
+
+  void setUser(User user) {
+    currentUser = user;
+    notifyListeners();
+  }
 }

@@ -40,7 +40,7 @@ Future<dynamic?> Login(AuthLogin loginData) async {
   }
 }
 
-Future<List<dynamic>?> Register(User registerData) async {
+Future<dynamic?> Register(User registerData) async {
   // we will try and register the user using the endpoint from our API class in our constants file
   try {
     // send the register data to the endpoint
@@ -52,7 +52,7 @@ Future<List<dynamic>?> Register(User registerData) async {
         });
     if (response.statusCode == 200) {
       // if we have a good status code, then we need to store the user data in the provider state
-
+      return response.body;
     }
     print(response.body);
   } catch (e) {
