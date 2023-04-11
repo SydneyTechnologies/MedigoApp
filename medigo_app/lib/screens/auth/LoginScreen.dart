@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/models/prescription.dart';
 import 'package:medigo_app/services/ApiService.dart';
 import 'package:medigo_app/models/user.dart';
 import 'package:medigo_app/services/AuthenticationProvider.dart';
@@ -116,18 +117,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         CustomButton(
                           text: "Sign In",
                           onPress: () async {
-                            // this is where we would add the login logic for the application
-                            var authLogin = AuthLogin(
-                              email: EmailController.text,
-                              password: PasswordController.text,
-                            );
-                            var loginResult = await Login(authLogin);
-                            if (loginResult != null) {
-                              User user = loginResult["user"];
-                              var token = loginResult["token"];
-                              var header = loginResult["header"];
-                              value.setUserCredentials(user, token, header);
-                              Navigator.pushNamed(context, "/home");
+                            try {
+                              // this is where we would add the login logic for the application
+                              var authLogin = AuthLogin(
+                                email: EmailController.text,
+                                password: PasswordController.text,
+                              );
+                              var loginResult = await Login(authLogin);
+                              if (loginResult != null) {
+                                User user = loginResult["user"];
+                                var token = loginResult["token"];
+                                var header = loginResult["header"];
+                                value.setUserCredentials(user, token, header);
+                                Prescription prescriptionRes =
+                                    await GetPrescription(user.email);
+
+                                value.setUserPresccription(prescriptionRes);
+                                Navigator.pushNamed(context, "/home");
+                              }
+                            } catch (e) {
+                              print(e);
                             }
 
                             // Navigator.pushNamed(context, "/home");

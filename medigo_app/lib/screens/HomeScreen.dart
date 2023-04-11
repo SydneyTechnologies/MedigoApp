@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/models/prescription.dart';
 import 'package:medigo_app/services/AuthenticationProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -56,19 +57,37 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Container(
-                    color: Color.fromARGB((0.43 * 255).toInt(), 184, 197, 214),
-                    child: PaddedContainer(
-                      pt: 20,
-                      pl: 20,
-                      pr: 20,
-                      pb: 12,
-                      child: Column(
-                        children: const [
-                          CollectionHistory(),
-                          CollectionHistory(),
-                          CollectionHistory(),
-                        ],
+                  Consumer<AuthProvider>(
+                    builder: (context, value, child) => Container(
+                      color:
+                          Color.fromARGB((0.43 * 255).toInt(), 184, 197, 214),
+                      child: PaddedContainer(
+                        pt: 20,
+                        pl: 20,
+                        pr: 20,
+                        pb: 12,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView.builder(
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              List<PrescriptionList>? currentItem =
+                                  value.userPrescription?.prescriptionList;
+                              return CollectionHistory(
+                                prescriptionDetails: currentItem != null
+                                    ? currentItem[index]
+                                    : PrescriptionList.fromJson({
+                                        "medication_name": "",
+                                        "instructions": "",
+                                        "issuer": "",
+                                      }),
+                                prescriptionDate:
+                                    value.userPrescription?.prescriptionDate ??
+                                        DateTime.parse("19700101"),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -83,7 +102,13 @@ class HomeScreen extends StatelessWidget {
 }
 
 class CollectionHistory extends StatelessWidget {
-  const CollectionHistory({super.key});
+  CollectionHistory(
+      {super.key,
+      required this.prescriptionDetails,
+      required this.prescriptionDate});
+
+  PrescriptionList? prescriptionDetails;
+  DateTime? prescriptionDate;
 
   @override
   Widget build(BuildContext context) {
@@ -117,15 +142,15 @@ class CollectionHistory extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Text(
-                            "Adderrall",
-                            style: TextStyle(color: Colors.white),
+                            prescriptionDetails!.medicationName,
+                            style: const TextStyle(color: Colors.white),
                             textAlign: TextAlign.start,
                           ),
                           Text(
-                            "30th March, 2023",
-                            style: TextStyle(
+                            "${prescriptionDate!.day}, ${prescriptionDate!.month} ${prescriptionDate!.year}",
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w200),

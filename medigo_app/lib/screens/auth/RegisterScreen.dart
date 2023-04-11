@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medigo_app/components/customWidgets.dart';
+import 'package:medigo_app/models/prescription.dart';
 import 'package:medigo_app/models/user.dart';
 import 'package:medigo_app/services/ApiService.dart';
 import 'package:medigo_app/services/AuthenticationProvider.dart';
@@ -201,8 +202,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                           );
                                           User _registerRes =
                                               await Register(_userData);
-                                          Navigator.pushNamed(context, "/home");
-                                          authVal.setUser(_registerRes);
+                                          if (_registerRes != null) {
+                                            authVal.setUser(_registerRes);
+                                            Prescription prescriptionRes =
+                                                await GetPrescription(
+                                                    _registerRes.email);
+                                            authVal.setUserPresccription(
+                                                prescriptionRes);
+                                            Navigator.pushNamed(
+                                                context, "/home");
+                                          }
                                         } catch (e) {
                                           print(e);
                                         }

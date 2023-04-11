@@ -61,3 +61,24 @@ Future<dynamic?> Register(User registerData) async {
     print(e);
   }
 }
+
+Future<dynamic?> GetPrescription(String userEmail) async {
+  // we are going to get the prescriptions for the current user via their email
+  try {
+    // send a get request to the backend to get the prescribed medication
+    var response = await http.get(Uri.parse("${MedigoAPI.register}/$userEmail"),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        });
+    if (response.statusCode == 200) {
+      // if we have a good status code, then we will serialise the data and return the value
+      return PrescriptionFromJson(response.body);
+    }
+    print(response.body);
+  } catch (e) {
+    // if login does not work for any reason then we print the error that was caught
+    print("not working");
+    print(e);
+  }
+}
